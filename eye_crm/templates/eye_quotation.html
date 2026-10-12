@@ -1,0 +1,96 @@
+<meta name="pdfkit-page-width" content="338.67mm">
+<meta name="pdfkit-page-height" content="190.5mm">
+<meta name="pdfkit-margin-top" content="0mm">
+<meta name="pdfkit-margin-bottom" content="0mm">
+<meta name="pdfkit-margin-left" content="0mm">
+<meta name="pdfkit-margin-right" content="0mm">
+{%- set IMG = "/assets/eye_crm/images/quotation/" -%}
+{%- set by_name = frappe.db.get_value("User", doc.owner, "full_name") or doc.owner -%}
+{%- set contact_name = doc.contact_display or (frappe.db.get_value("Contact", doc.contact_person, "full_name") if doc.contact_person else "") -%}
+{%- set cur = doc.currency -%}
+<style>
+  .print-format { margin-top: 0mm; margin-bottom: 0mm; margin-left: 0mm; margin-right: 0mm; page-size: Custom; page-width: 338.67mm; page-height: 190.5mm; }
+  @page { size: 338.67mm 190.5mm; margin: 0; }
+  html, body { margin: 0 !important; padding: 0 !important; }
+  .print-format { padding: 0 !important; margin: 0 !important; max-width: none !important; width: auto !important; }
+  .slide { width: 338.67mm; height: 190.5mm; position: relative; overflow: hidden;
+           page-break-after: always; page-break-inside: avoid; }
+  .slide:last-child { page-break-after: auto; }
+  .bg { position: absolute; top: 0; left: 0; width: 338.67mm; height: 190.5mm; }
+  .t  { position: absolute; font-family: Arial, Helvetica, sans-serif; line-height: 1.15; }
+  .w  { color: #fff; }
+
+  table.q { position: absolute; top: 36mm; left: 28.3mm; width: 272.8mm;
+            border-collapse: separate; border-spacing: 0.6mm;
+            font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #000; }
+  table.q td, table.q th { text-align: center; vertical-align: middle; padding: 0 2mm; height: 11.5mm; }
+  table.q th { background: #16A7DF; color: #fff; font-weight: normal; }
+  table.q td.desc { text-align: left; font-weight: bold; }
+  table.q td.desc p, table.q td.desc div { margin: 0; padding: 0; }
+  table.q tr.item td { background: #EDEDED; }
+  table.q tr.sum td.lbl { background: transparent; }
+  table.q tr.sum td.val { color: #fff; font-weight: bold; background: #002060; }
+  table.q tr.sum.tax td.val { background: #16A7DF; }
+</style>
+
+<!-- 1. Cover -->
+<div class="slide">
+  <img class="bg" src="{{ IMG }}slide-1.jpg">
+  <div class="t w" style="top:72mm; left:25mm; width:165mm; font-size:34pt;">{{ contact_name or doc.customer_name }}</div>
+  <div class="t w" style="top:104mm; left:25.5mm; width:165mm; font-size:14pt;">{{ doc.custom_quotation_title or "Quotation" }}</div>
+</div>
+
+<!-- 2. To / Company / By -->
+<div class="slide">
+  <img class="bg" src="{{ IMG }}slide-2.jpg">
+  <div class="t w" style="top:62.5mm; left:72mm; width:125mm; font-size:22pt;">{{ contact_name }}</div>
+  <div class="t w" style="top:88.5mm; left:72mm; width:125mm; font-size:22pt;">{{ doc.customer_name }}</div>
+  <div class="t w" style="top:114.5mm; left:72mm; width:125mm; font-size:22pt;">{{ by_name }}</div>
+</div>
+
+<!-- 3. Client references (static) -->
+<div class="slide"><img class="bg" src="{{ IMG }}slide-3.jpg"></div>
+
+<!-- 4. Pricing: 7 items per slide, totals on the last one -->
+{%- set pages = doc.items | batch(7) | list -%}
+{%- for chunk in pages %}
+<div class="slide">
+  <img class="bg" src="{{ IMG }}slide-4.jpg">
+  <table class="q">
+    <colgroup><col style="width:47%"><col style="width:11%"><col style="width:21%"><col style="width:21%"></colgroup>
+    <tr><th>Description</th><th>Quantity</th><th>Unit Price ({{ cur }})</th><th>Total Price ({{ cur }})</th></tr>
+    {%- for i in chunk %}
+    <tr class="item">
+      <td class="desc">{{ i.description or i.item_name }}</td>
+      <td>{{ frappe.utils.fmt_money(i.qty, precision=0) }}</td>
+      <td>{{ frappe.utils.fmt_money(i.rate, currency=None) }}</td>
+      <td>{{ frappe.utils.fmt_money(i.amount, currency=None) }}</td>
+    </tr>
+    {%- endfor %}
+    {%- if loop.last %}
+    <tr class="sum"><td class="lbl">Total</td><td class="val" colspan="3">{{ doc.get_formatted("net_total") }}</td></tr>
+    {%- for tx in doc.taxes %}
+    <tr class="sum tax"><td class="lbl"><b>{{ tx.description }}</b></td><td class="val" colspan="3">{{ tx.get_formatted("tax_amount", doc) }}</td></tr>
+    {%- endfor %}
+    {%- if doc.taxes %}
+    <tr class="sum"><td class="lbl">Grand Total</td><td class="val" colspan="3">{{ doc.get_formatted("grand_total") }}</td></tr>
+    {%- endif %}
+    {%- endif %}
+  </table>
+</div>
+{%- endfor %}
+
+<!-- 5. Concurrence -->
+<div class="slide">
+  <img class="bg" src="{{ IMG }}slide-5.jpg">
+  <div class="t" style="top:65.6mm; left:197.2mm; width:135mm; font-size:18pt; font-weight:bold; color:#16A7DF;">{{ doc.customer_name }}</div>
+</div>
+
+<!-- 6. Terms (static, last heading fixed to Taxes) -->
+<div class="slide"><img class="bg" src="{{ IMG }}slide-6.jpg"></div>
+
+<!-- 7. Our services (static) -->
+<div class="slide"><img class="bg" src="{{ IMG }}slide-7.jpg"></div>
+
+<!-- 8. Thank you (static) -->
+<div class="slide"><img class="bg" src="{{ IMG }}slide-8.jpg"></div>

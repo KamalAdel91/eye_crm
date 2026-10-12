@@ -272,3 +272,28 @@ app_license = "mit"
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
+fixtures = [{'dt': 'Custom Field', 'filters': [['module', '=', 'Eye Crm']]},
+ {'dt': 'Sales Stage',
+  'filters': [['name',
+               'in',
+               ['Estimation', 'Proposal', 'Quotation', 'Project Won', 'Quote approved']]]},
+ 'Deal Nature',
+ 'Service Type',
+ 'PO Status',
+ 'Pricing Status',
+ {'dt': 'Role', 'filters': [['name', '=', 'Production']]},
+ {'dt': 'Custom DocPerm', 'filters': [['role', '=', 'Production']]},
+ {'dt': 'Property Setter', 'filters': [['module', '=', 'Eye Crm']]},
+ {'dt': 'Server Script', 'filters': [['module', '=', 'Eye Crm']]},
+ {'dt': 'Client Script', 'filters': [['module', '=', 'Eye Crm']]}]
+
+
+add_to_apps_screen = [
+    {
+        "name": "eye_crm",
+        "title": "Eye CRM",
+        "has_permission": "eye_crm.setup_crm.has_app_permission",
+    }
+]
+
+

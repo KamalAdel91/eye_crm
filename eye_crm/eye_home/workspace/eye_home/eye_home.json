@@ -1,0 +1,73 @@
+{
+ "charts": [
+  {
+   "chart_name": "Deals by Stage",
+   "label": "Deals by Stage"
+  },
+  {
+   "chart_name": "Deals by Service Type",
+   "label": "Deals by Service Type"
+  },
+  {
+   "chart_name": "Pricing Requests per Month",
+   "label": "Pricing Requests per Month"
+  }
+ ],
+ "content": "[{\"id\": \"eye0000000\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"\\u003cspan class=\\\"h4\\\"\\u003e\\u003cb\\u003eOverview\\u003c/b\\u003e\\u003c/span\\u003e\"}}, {\"id\": \"eye0000001\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Open Opportunities\"}}, {\"id\": \"eye0000002\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Won This Month\"}}, {\"id\": \"eye0000003\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Open Pricing Requests\"}}, {\"id\": \"eye0000004\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Overdue Pricing Requests\"}}, {\"id\": \"eye0000005\", \"type\": \"chart\", \"data\": {\"col\": 6, \"chart_name\": \"Deals by Stage\"}}, {\"id\": \"eye0000006\", \"type\": \"chart\", \"data\": {\"col\": 6, \"chart_name\": \"Deals by Service Type\"}}, {\"id\": \"eye0000007\", \"type\": \"chart\", \"data\": {\"col\": 12, \"chart_name\": \"Pricing Requests per Month\"}}, {\"id\": \"eyedeals01\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals Board\", \"col\": 3}}]",
+ "creation": "2026-10-12 15:16:06.469767",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "hide_custom": 0,
+ "icon": "chart-column",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Eye Home",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2026-10-12 16:36:57.179324",
+ "modified_by": "Administrator",
+ "module": "Eye Home",
+ "name": "Eye Home",
+ "number_cards": [
+  {
+   "label": "Open Opportunities",
+   "number_card_name": "Open Opportunities"
+  },
+  {
+   "label": "Won This Month",
+   "number_card_name": "Won This Month"
+  },
+  {
+   "label": "Open Pricing Requests",
+   "number_card_name": "Open Pricing Requests"
+  },
+  {
+   "label": "Overdue Pricing Requests",
+   "number_card_name": "Overdue Pricing Requests"
+  }
+ ],
+ "owner": "Administrator",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 0.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "Kanban",
+   "kanban_board": "Deals",
+   "label": "Deals Board",
+   "link_to": "Opportunity",
+   "type": "DocType"
+  }
+ ],
+ "standard": 1,
+ "title": "Eye Home",
+ "type": "Workspace"
+}
