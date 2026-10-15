@@ -98,6 +98,9 @@ app_license = "mit"
 # before_install = "eye_crm.install.before_install"
 # after_install = "eye_crm.install.after_install"
 
+# setup data, once (see install.py)
+after_install = "eye_crm.install.after_install"
+
 # Uninstallation
 # ------------
 
@@ -272,20 +275,12 @@ app_license = "mit"
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
-fixtures = [{'dt': 'Custom Field', 'filters': [['module', '=', 'Eye Crm']]},
- {'dt': 'Sales Stage',
-  'filters': [['name',
-               'in',
-               ['Estimation', 'Proposal', 'Quotation', 'Project Won', 'Quote approved']]]},
- 'Deal Nature',
- 'Service Type',
- 'PO Status',
- 'Pricing Status',
- {'dt': 'Role', 'filters': [['name', '=', 'Production']]},
- {'dt': 'Custom DocPerm', 'filters': [['role', '=', 'Production']]},
- {'dt': 'Property Setter', 'filters': [['module', '=', 'Eye Crm']]},
- {'dt': 'Server Script', 'filters': [['module', '=', 'Eye Crm']]},
- {'dt': 'Client Script', 'filters': [['module', '=', 'Eye Crm']]}]
+# Eye depends on ERPNext only. Its rules live in its own Server and Client Scripts; Nexlify
+# Board, when a site has it, only shows them better (wired by data, not code).
+# Its Custom Fields, scripts, reports and lists are in setup_data/, put on a site once when the
+# app is installed (eye_crm.install). They are not fixtures: a migrate never brings them back, so
+# what is changed or deleted from the desk stays that way.
+
 
 
 add_to_apps_screen = [

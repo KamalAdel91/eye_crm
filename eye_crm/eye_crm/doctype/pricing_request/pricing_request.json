@@ -10,23 +10,23 @@
  "field_order": [
   "opportunity",
   "customer_name",
-  "service_type",
   "cb1",
   "required_by",
-  "status",
-  "pending_change",
-  "sales_started",
-  "approved_costs",
   "currency",
   "total_cost",
+  "priced_on",
   "sb1",
   "sales_notes",
   "items",
+  "status",
   "costs_sb",
   "costs",
   "qa_sb",
   "production_question",
-  "sales_reply"
+  "sales_reply",
+  "pending_change",
+  "sales_started",
+  "approved_costs"
  ],
  "fields": [
   {
@@ -43,15 +43,6 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Customer",
-   "read_only": 1
-  },
-  {
-   "fieldname": "service_type",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Service Type",
-   "options": "Service Type",
    "read_only": 1
   },
   {
@@ -77,6 +68,14 @@
    "fieldtype": "Currency",
    "label": "Total Cost",
    "options": "currency",
+   "read_only": 1
+  },
+  {
+   "description": "When Production first sent the prices to Sales",
+   "fieldname": "priced_on",
+   "fieldtype": "Datetime",
+   "label": "Priced On",
+   "no_copy": 1,
    "read_only": 1
   },
   {
@@ -160,7 +159,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-12 16:01:55.728353",
+ "modified": "2026-10-14 20:04:36.919731",
  "modified_by": "Administrator",
  "module": "Eye CRM",
  "name": "Pricing Request",

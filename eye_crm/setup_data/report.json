@@ -1,0 +1,353 @@
+[
+ {
+  "add_total_row": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "modified": "2026-10-13 21:00:00.000000",
+  "module": "Eye Crm",
+  "name": "Eye Revenue on Hand",
+  "prepared_report": 0,
+  "ref_doctype": "Opportunity",
+  "report_name": "Eye Revenue on Hand",
+  "report_script": "# Eye Revenue on Hand: approved deals' Sales Orders by service type, less what is invoiced.\nflt = frappe.utils.flt\nrows = []\ndeals = frappe.get_all(\"Opportunity\", filters={\"sales_stage\": \"Quote approved\", \"custom_sales_order\": [\"is\", \"set\"]},\n                       fields=[\"name\", \"customer_name\", \"party_name\", \"currency\", \"custom_sales_order\"])\nfor d in deals:\n    if filters.get(\"customer\") and d.party_name != filters.get(\"customer\"):\n        continue\n    billed = {}\n    requested = {}\n    for b in frappe.get_all(\"Billing Request\", filters={\"opportunity\": d.name}, fields=[\"name\", \"billing_stage\"]):\n        done = b.billing_stage in (\"Invoiced\", \"Collected\")\n        for it in frappe.get_all(\"Billing Request Item\", filters={\"parent\": b.name, \"parenttype\": \"Billing Request\"},\n                                 fields=[\"so_detail\", \"amount\"]):\n            if done:\n                billed[it.so_detail] = billed.get(it.so_detail, 0) + flt(it.amount)\n            else:\n                requested[it.so_detail] = requested.get(it.so_detail, 0) + flt(it.amount)\n    by_type = {}\n    for i in frappe.get_all(\"Sales Order Item\", filters={\"parent\": d.custom_sales_order, \"parenttype\": \"Sales Order\"},\n                            fields=[\"name\", \"custom_service_type\", \"amount\"]):\n        t = i.custom_service_type or _(\"Not set\")\n        if filters.get(\"service_type\") and t != filters.get(\"service_type\"):\n            continue\n        x = by_type.get(t) or {\"order\": 0, \"requested\": 0, \"invoiced\": 0}\n        x[\"order\"] = x[\"order\"] + flt(i.amount)\n        x[\"requested\"] = x[\"requested\"] + requested.get(i.name, 0)\n        x[\"invoiced\"] = x[\"invoiced\"] + billed.get(i.name, 0)\n        by_type[t] = x\n    for t in sorted(by_type):\n        x = by_type[t]\n        rows.append({\"opportunity\": d.name, \"customer_name\": d.customer_name, \"service_type\": t, \"currency\": d.currency,\n                     \"order_value\": x[\"order\"], \"requested\": x[\"requested\"], \"invoiced\": x[\"invoiced\"],\n                     \"on_hand\": x[\"order\"] - x[\"invoiced\"]})\ncolumns = [\n    {\"fieldname\": \"opportunity\", \"label\": _(\"Deal\"), \"fieldtype\": \"Link\", \"options\": \"Opportunity\", \"width\": 160},\n    {\"fieldname\": \"customer_name\", \"label\": _(\"Customer\"), \"fieldtype\": \"Data\", \"width\": 200},\n    {\"fieldname\": \"service_type\", \"label\": _(\"Service Type\"), \"fieldtype\": \"Data\", \"width\": 140},\n    {\"fieldname\": \"currency\", \"label\": _(\"Currency\"), \"fieldtype\": \"Link\", \"options\": \"Currency\", \"width\": 80, \"hidden\": 1},\n    {\"fieldname\": \"order_value\", \"label\": _(\"Order Value\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 130},\n    {\"fieldname\": \"requested\", \"label\": _(\"Requested, Not Invoiced\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 160},\n    {\"fieldname\": \"invoiced\", \"label\": _(\"Invoiced\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 130},\n    {\"fieldname\": \"on_hand\", \"label\": _(\"Revenue on Hand\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 150},\n]\ndata = columns, rows\n",
+  "report_type": "Script Report",
+  "filters": [
+   {
+    "fieldname": "customer",
+    "label": "Customer",
+    "fieldtype": "Link",
+    "options": "Customer",
+    "mandatory": 0,
+    "wildcard_filter": 0,
+    "default": null,
+    "doctype": "Report Filter",
+    "parentfield": "filters"
+   },
+   {
+    "fieldname": "service_type",
+    "label": "Service Type",
+    "fieldtype": "Link",
+    "options": "Service Type",
+    "mandatory": 0,
+    "wildcard_filter": 0,
+    "default": null,
+    "doctype": "Report Filter",
+    "parentfield": "filters"
+   }
+  ],
+  "columns": [],
+  "roles": [
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "System Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Sales Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts User"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Management"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "modified": "2026-10-13 21:00:00.000000",
+  "module": "Eye Crm",
+  "name": "Eye Won Not Billed",
+  "prepared_report": 0,
+  "ref_doctype": "Opportunity",
+  "report_name": "Eye Won Not Billed",
+  "report_script": "# Eye Won Not Billed: approved deals with nothing invoiced yet, oldest first.\nflt = frappe.utils.flt\ntoday = frappe.utils.nowdate()\nrows = []\nfor d in frappe.get_all(\"Opportunity\", filters={\"sales_stage\": \"Quote approved\"},\n                        fields=[\"name\", \"customer_name\", \"currency\", \"custom_approved_on\", \"total\", \"opportunity_amount\",\n                                \"custom_billed_amount\", \"custom_sales_order\", \"owner\"]):\n    if flt(d.custom_billed_amount) > 0:\n        continue\n    requested = sum([flt(b.total) for b in frappe.get_all(\"Billing Request\", filters={\"opportunity\": d.name}, fields=[\"total\"])])\n    approved = str(d.custom_approved_on or \"\")[:10]\n    rows.append({\"opportunity\": d.name, \"customer_name\": d.customer_name, \"approved_on\": approved or None,\n                 \"days\": frappe.utils.date_diff(today, approved) if approved else None, \"currency\": d.currency,\n                 \"value\": flt(d.total or d.opportunity_amount), \"requested\": requested, \"sales_order\": d.custom_sales_order,\n                 \"owner\": d.owner})\nrows = [r for dk, ik, r in sorted([(-(r[\"days\"] or 0), i, r) for i, r in enumerate(rows)])]\ncolumns = [\n    {\"fieldname\": \"opportunity\", \"label\": _(\"Deal\"), \"fieldtype\": \"Link\", \"options\": \"Opportunity\", \"width\": 160},\n    {\"fieldname\": \"customer_name\", \"label\": _(\"Customer\"), \"fieldtype\": \"Data\", \"width\": 200},\n    {\"fieldname\": \"approved_on\", \"label\": _(\"Approved On\"), \"fieldtype\": \"Date\", \"width\": 110},\n    {\"fieldname\": \"days\", \"label\": _(\"Days Waiting\"), \"fieldtype\": \"Int\", \"width\": 100},\n    {\"fieldname\": \"currency\", \"label\": _(\"Currency\"), \"fieldtype\": \"Link\", \"options\": \"Currency\", \"hidden\": 1},\n    {\"fieldname\": \"value\", \"label\": _(\"Deal Value\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 130},\n    {\"fieldname\": \"requested\", \"label\": _(\"Requested\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 130},\n    {\"fieldname\": \"sales_order\", \"label\": _(\"Sales Order\"), \"fieldtype\": \"Link\", \"options\": \"Sales Order\", \"width\": 140},\n    {\"fieldname\": \"owner\", \"label\": _(\"Sales\"), \"fieldtype\": \"Link\", \"options\": \"User\", \"width\": 160},\n]\ndata = columns, rows\n",
+  "report_type": "Script Report",
+  "filters": [],
+  "columns": [],
+  "roles": [
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "System Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Sales Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts User"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Management"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "modified": "2026-10-13 21:00:00.000000",
+  "module": "Eye Crm",
+  "name": "Eye Billing Pipeline",
+  "prepared_report": 0,
+  "ref_doctype": "Billing Request",
+  "report_name": "Eye Billing Pipeline",
+  "report_script": "# Eye Billing Pipeline: invoice requests by stage and expected month.\nflt = frappe.utils.flt\ncond = {}\nif filters.get(\"from_date\") and filters.get(\"to_date\"):\n    cond[\"expected_date\"] = [\"between\", [filters.get(\"from_date\"), filters.get(\"to_date\")]]\ngroups = {}\nfor b in frappe.get_all(\"Billing Request\", filters=cond, fields=[\"billing_stage\", \"expected_date\", \"total\", \"currency\"]):\n    key = (str(b.expected_date or \"\")[:7], b.billing_stage, b.currency)\n    g = groups.get(key) or {\"count\": 0, \"total\": 0}\n    g[\"count\"] = g[\"count\"] + 1\n    g[\"total\"] = g[\"total\"] + flt(b.total)\n    groups[key] = g\norder = {\"To be invoiced\": 1, \"Finance, please issue\": 2, \"Invoiced\": 3, \"Collected\": 4}\nrows = []\nfor sort_key, key in sorted([((k[0], order.get(k[1], 9), k[2]), k) for k in groups]):\n    rows.append({\"month\": key[0], \"stage\": key[1], \"currency\": key[2], \"requests\": groups[key][\"count\"], \"total\": groups[key][\"total\"]})\ncolumns = [\n    {\"fieldname\": \"month\", \"label\": _(\"Expected Month\"), \"fieldtype\": \"Data\", \"width\": 120},\n    {\"fieldname\": \"stage\", \"label\": _(\"Stage\"), \"fieldtype\": \"Link\", \"options\": \"Billing Stage\", \"width\": 170},\n    {\"fieldname\": \"currency\", \"label\": _(\"Currency\"), \"fieldtype\": \"Link\", \"options\": \"Currency\", \"width\": 80},\n    {\"fieldname\": \"requests\", \"label\": _(\"Requests\"), \"fieldtype\": \"Int\", \"width\": 90},\n    {\"fieldname\": \"total\", \"label\": _(\"Total\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 140},\n]\ndata = columns, rows\n",
+  "report_type": "Script Report",
+  "filters": [
+   {
+    "fieldname": "from_date",
+    "label": "From Date",
+    "fieldtype": "Date",
+    "options": null,
+    "mandatory": 0,
+    "wildcard_filter": 0,
+    "default": null,
+    "doctype": "Report Filter",
+    "parentfield": "filters"
+   },
+   {
+    "fieldname": "to_date",
+    "label": "To Date",
+    "fieldtype": "Date",
+    "options": null,
+    "mandatory": 0,
+    "wildcard_filter": 0,
+    "default": null,
+    "doctype": "Report Filter",
+    "parentfield": "filters"
+   }
+  ],
+  "columns": [],
+  "roles": [
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "System Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Sales Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts User"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Management"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "modified": "2026-10-13 21:00:00.000000",
+  "module": "Eye Crm",
+  "name": "Eye Collections",
+  "prepared_report": 0,
+  "ref_doctype": "Billing Request",
+  "report_name": "Eye Collections",
+  "report_script": "# Eye Collections: invoiced against collected, by invoice month.\nflt = frappe.utils.flt\ncond = {\"billing_stage\": [\"in\", [\"Invoiced\", \"Collected\"]]}\nif filters.get(\"from_date\") and filters.get(\"to_date\"):\n    cond[\"invoice_date\"] = [\"between\", [filters.get(\"from_date\"), filters.get(\"to_date\")]]\ngroups = {}\nfor b in frappe.get_all(\"Billing Request\", filters=cond, fields=[\"invoice_date\", \"total\", \"collected_amount\", \"currency\"]):\n    key = (str(b.invoice_date or \"\")[:7], b.currency)\n    g = groups.get(key) or {\"count\": 0, \"invoiced\": 0, \"collected\": 0}\n    g[\"count\"] = g[\"count\"] + 1\n    g[\"invoiced\"] = g[\"invoiced\"] + flt(b.total)\n    g[\"collected\"] = g[\"collected\"] + flt(b.collected_amount)\n    groups[key] = g\nrows = []\nfor key in sorted(groups):\n    g = groups[key]\n    rows.append({\"month\": key[0], \"currency\": key[1], \"invoices\": g[\"count\"], \"invoiced\": g[\"invoiced\"],\n                 \"collected\": g[\"collected\"], \"outstanding\": g[\"invoiced\"] - g[\"collected\"]})\ncolumns = [\n    {\"fieldname\": \"month\", \"label\": _(\"Invoice Month\"), \"fieldtype\": \"Data\", \"width\": 120},\n    {\"fieldname\": \"currency\", \"label\": _(\"Currency\"), \"fieldtype\": \"Link\", \"options\": \"Currency\", \"width\": 80},\n    {\"fieldname\": \"invoices\", \"label\": _(\"Invoices\"), \"fieldtype\": \"Int\", \"width\": 90},\n    {\"fieldname\": \"invoiced\", \"label\": _(\"Invoiced\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 140},\n    {\"fieldname\": \"collected\", \"label\": _(\"Collected\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 140},\n    {\"fieldname\": \"outstanding\", \"label\": _(\"Outstanding\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 140},\n]\ndata = columns, rows\n",
+  "report_type": "Script Report",
+  "filters": [
+   {
+    "fieldname": "from_date",
+    "label": "From Date",
+    "fieldtype": "Date",
+    "options": null,
+    "mandatory": 0,
+    "wildcard_filter": 0,
+    "default": null,
+    "doctype": "Report Filter",
+    "parentfield": "filters"
+   },
+   {
+    "fieldname": "to_date",
+    "label": "To Date",
+    "fieldtype": "Date",
+    "options": null,
+    "mandatory": 0,
+    "wildcard_filter": 0,
+    "default": null,
+    "doctype": "Report Filter",
+    "parentfield": "filters"
+   }
+  ],
+  "columns": [],
+  "roles": [
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "System Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Sales Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts User"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Management"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "modified": "2026-10-13 21:00:00.000000",
+  "module": "Eye Crm",
+  "name": "Eye Pricing Turnaround",
+  "prepared_report": 0,
+  "ref_doctype": "Pricing Request",
+  "report_name": "Eye Pricing Turnaround",
+  "report_script": "# Eye Pricing Turnaround: how long Production takes to price, and whether it met Required By.\nrows = []\ncond = {}\nif filters.get(\"from_date\") and filters.get(\"to_date\"):\n    cond[\"creation\"] = [\"between\", [filters.get(\"from_date\"), filters.get(\"to_date\")]]\nfor p in frappe.get_all(\"Pricing Request\", filters=cond, order_by=\"creation desc\",\n                        fields=[\"name\", \"opportunity\", \"customer_name\", \"creation\", \"required_by\", \"priced_on\", \"status\"]):\n    asked = str(p.creation)[:10]\n    priced = str(p.priced_on or \"\")[:10]\n    on_time = None\n    if priced and p.required_by:\n        on_time = 1 if priced <= str(p.required_by) else 0\n    rows.append({\"pricing_request\": p.name, \"opportunity\": p.opportunity, \"customer_name\": p.customer_name,\n                 \"requested_on\": asked, \"required_by\": p.required_by, \"priced_on\": priced or None,\n                 \"days\": frappe.utils.date_diff(priced or frappe.utils.nowdate(), asked), \"on_time\": on_time, \"status\": p.status})\ncolumns = [\n    {\"fieldname\": \"pricing_request\", \"label\": _(\"Pricing Request\"), \"fieldtype\": \"Link\", \"options\": \"Pricing Request\", \"width\": 150},\n    {\"fieldname\": \"opportunity\", \"label\": _(\"Deal\"), \"fieldtype\": \"Link\", \"options\": \"Opportunity\", \"width\": 150},\n    {\"fieldname\": \"customer_name\", \"label\": _(\"Customer\"), \"fieldtype\": \"Data\", \"width\": 180},\n    {\"fieldname\": \"requested_on\", \"label\": _(\"Requested On\"), \"fieldtype\": \"Date\", \"width\": 110},\n    {\"fieldname\": \"required_by\", \"label\": _(\"Required By\"), \"fieldtype\": \"Date\", \"width\": 110},\n    {\"fieldname\": \"priced_on\", \"label\": _(\"Priced On\"), \"fieldtype\": \"Date\", \"width\": 110},\n    {\"fieldname\": \"days\", \"label\": _(\"Days\"), \"fieldtype\": \"Int\", \"width\": 70},\n    {\"fieldname\": \"on_time\", \"label\": _(\"On Time\"), \"fieldtype\": \"Check\", \"width\": 80},\n    {\"fieldname\": \"status\", \"label\": _(\"Status\"), \"fieldtype\": \"Data\", \"width\": 140},\n]\ndata = columns, rows\n",
+  "report_type": "Script Report",
+  "filters": [
+   {
+    "fieldname": "from_date",
+    "label": "From Date",
+    "fieldtype": "Date",
+    "options": null,
+    "mandatory": 0,
+    "wildcard_filter": 0,
+    "default": null,
+    "doctype": "Report Filter",
+    "parentfield": "filters"
+   },
+   {
+    "fieldname": "to_date",
+    "label": "To Date",
+    "fieldtype": "Date",
+    "options": null,
+    "mandatory": 0,
+    "wildcard_filter": 0,
+    "default": null,
+    "doctype": "Report Filter",
+    "parentfield": "filters"
+   }
+  ],
+  "columns": [],
+  "roles": [
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "System Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Sales Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Production"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Management"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "modified": "2026-10-13 21:00:00.000000",
+  "module": "Eye Crm",
+  "name": "Eye Deal PL",
+  "prepared_report": 0,
+  "ref_doctype": "Opportunity",
+  "report_name": "Eye Deal PL",
+  "report_script": "# Eye Deal PL: cost, minimum selling, sold and invoiced for each won deal.\nflt = frappe.utils.flt\nrows = []\nstages = [\"Project Won\", \"Accounts, please approve\", \"Quote approved\"]\nfor d in frappe.get_all(\"Opportunity\", filters={\"sales_stage\": [\"in\", stages]},\n                        fields=[\"name\", \"customer_name\", \"sales_stage\", \"currency\", \"custom_total_cost\", \"custom_total_selling\",\n                                \"total\", \"opportunity_amount\", \"custom_billed_amount\", \"custom_collected_amount\"]):\n    cost = flt(d.custom_total_cost)\n    sold = flt(d.total or d.opportunity_amount)\n    gp = sold - cost\n    rows.append({\"opportunity\": d.name, \"customer_name\": d.customer_name, \"stage\": d.sales_stage, \"currency\": d.currency,\n                 \"cost\": cost, \"minimum\": flt(d.custom_total_selling), \"sold\": sold, \"gross_profit\": gp,\n                 \"gp_on_cost\": (gp / cost * 100) if cost else 0, \"invoiced\": flt(d.custom_billed_amount),\n                 \"collected\": flt(d.custom_collected_amount)})\ncolumns = [\n    {\"fieldname\": \"opportunity\", \"label\": _(\"Deal\"), \"fieldtype\": \"Link\", \"options\": \"Opportunity\", \"width\": 150},\n    {\"fieldname\": \"customer_name\", \"label\": _(\"Customer\"), \"fieldtype\": \"Data\", \"width\": 180},\n    {\"fieldname\": \"stage\", \"label\": _(\"Stage\"), \"fieldtype\": \"Data\", \"width\": 160},\n    {\"fieldname\": \"currency\", \"label\": _(\"Currency\"), \"fieldtype\": \"Link\", \"options\": \"Currency\", \"hidden\": 1},\n    {\"fieldname\": \"cost\", \"label\": _(\"Cost\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 120},\n    {\"fieldname\": \"minimum\", \"label\": _(\"Minimum Selling\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 130},\n    {\"fieldname\": \"sold\", \"label\": _(\"Sold\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 120},\n    {\"fieldname\": \"gross_profit\", \"label\": _(\"Gross Profit\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 120},\n    {\"fieldname\": \"gp_on_cost\", \"label\": _(\"GP % on Cost\"), \"fieldtype\": \"Percent\", \"width\": 110},\n    {\"fieldname\": \"invoiced\", \"label\": _(\"Invoiced\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 120},\n    {\"fieldname\": \"collected\", \"label\": _(\"Collected\"), \"fieldtype\": \"Currency\", \"options\": \"currency\", \"width\": 120},\n]\ndata = columns, rows\n",
+  "report_type": "Script Report",
+  "filters": [],
+  "columns": [],
+  "roles": [
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "System Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Sales Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts User"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Accounts Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "parentfield": "roles",
+    "role": "Management"
+   }
+  ]
+ }
+]

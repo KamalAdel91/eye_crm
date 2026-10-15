@@ -1,0 +1,28 @@
+[
+ {
+  "name": "Management",
+  "docstatus": 0,
+  "idx": 0,
+  "role_name": "Management",
+  "home_page": null,
+  "restrict_to_domain": null,
+  "disabled": 0,
+  "is_custom": 0,
+  "desk_access": 1,
+  "two_factor_auth": 0,
+  "doctype": "Role"
+ },
+ {
+  "name": "Production",
+  "docstatus": 0,
+  "idx": 0,
+  "role_name": "Production",
+  "home_page": null,
+  "restrict_to_domain": null,
+  "disabled": 0,
+  "is_custom": 0,
+  "desk_access": 1,
+  "two_factor_auth": 0,
+  "doctype": "Role"
+ }
+]

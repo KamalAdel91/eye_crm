@@ -1,0 +1,23 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Eye Approval Status",
+  "modified": "2026-10-13 17:00:00.000000",
+  "name": "Pending",
+  "title": "Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Eye Approval Status",
+  "modified": "2026-10-13 17:00:00.000000",
+  "name": "Approved",
+  "title": "Approved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Eye Approval Status",
+  "modified": "2026-10-13 17:00:00.000000",
+  "name": "Rejected",
+  "title": "Rejected"
+ }
+]

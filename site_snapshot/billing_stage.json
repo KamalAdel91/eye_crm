@@ -1,0 +1,42 @@
+[
+ {
+  "name": "To be invoiced",
+  "docstatus": 0,
+  "idx": 1,
+  "title": "To be invoiced",
+  "sequence": 1,
+  "custom_can_start_here": 1,
+  "custom_start_default": 1,
+  "doctype": "Billing Stage"
+ },
+ {
+  "name": "Finance, please issue",
+  "docstatus": 0,
+  "idx": 2,
+  "title": "Finance, please issue",
+  "sequence": 2,
+  "custom_can_start_here": 1,
+  "custom_start_default": 0,
+  "doctype": "Billing Stage"
+ },
+ {
+  "name": "Invoiced",
+  "docstatus": 0,
+  "idx": 1,
+  "title": "Invoiced",
+  "sequence": 3,
+  "custom_can_start_here": 0,
+  "custom_start_default": 0,
+  "doctype": "Billing Stage"
+ },
+ {
+  "name": "Collected",
+  "docstatus": 0,
+  "idx": 0,
+  "title": "Collected",
+  "sequence": 4,
+  "custom_can_start_here": 0,
+  "custom_start_default": 0,
+  "doctype": "Billing Stage"
+ }
+]

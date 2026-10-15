@@ -5,15 +5,11 @@
    "label": "Deals by Stage"
   },
   {
-   "chart_name": "Deals by Service Type",
-   "label": "Deals by Service Type"
-  },
-  {
    "chart_name": "Pricing Requests per Month",
    "label": "Pricing Requests per Month"
   }
  ],
- "content": "[{\"id\": \"eye0000000\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"\\u003cspan class=\\\"h4\\\"\\u003e\\u003cb\\u003eOverview\\u003c/b\\u003e\\u003c/span\\u003e\"}}, {\"id\": \"eye0000001\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Open Opportunities\"}}, {\"id\": \"eye0000002\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Won This Month\"}}, {\"id\": \"eye0000003\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Open Pricing Requests\"}}, {\"id\": \"eye0000004\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Overdue Pricing Requests\"}}, {\"id\": \"eye0000005\", \"type\": \"chart\", \"data\": {\"col\": 6, \"chart_name\": \"Deals by Stage\"}}, {\"id\": \"eye0000006\", \"type\": \"chart\", \"data\": {\"col\": 6, \"chart_name\": \"Deals by Service Type\"}}, {\"id\": \"eye0000007\", \"type\": \"chart\", \"data\": {\"col\": 12, \"chart_name\": \"Pricing Requests per Month\"}}, {\"id\": \"eyedeals01\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals Board\", \"col\": 3}}]",
+ "content": "[{\"id\": \"eye0000000\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"<span class=\\\"h4\\\"><b>Overview</b></span>\"}}, {\"id\": \"eye0000001\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Open Opportunities\"}}, {\"id\": \"eye0000002\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Won This Month\"}}, {\"id\": \"eye0000003\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Open Pricing Requests\"}}, {\"id\": \"eye0000004\", \"type\": \"number_card\", \"data\": {\"col\": 3, \"number_card_name\": \"Overdue Pricing Requests\"}}, {\"id\": \"eye0000005\", \"type\": \"chart\", \"data\": {\"col\": 6, \"chart_name\": \"Deals by Stage\"}}, {\"id\": \"eye0000007\", \"type\": \"chart\", \"data\": {\"col\": 12, \"chart_name\": \"Pricing Requests per Month\"}}, {\"id\": \"eyedeals01\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals Board\", \"col\": 3}}, {\"id\": \"eyehm00000\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"<span class=\\\"h4\\\"><b>Approval & Billing</b></span>\"}}, {\"id\": \"eyehm00001\", \"type\": \"number_card\", \"data\": {\"col\": 4, \"number_card_name\": \"Waiting on Accounts\"}}, {\"id\": \"eyehm00002\", \"type\": \"number_card\", \"data\": {\"col\": 4, \"number_card_name\": \"To Invoice\"}}, {\"id\": \"eyehm00003\", \"type\": \"number_card\", \"data\": {\"col\": 4, \"number_card_name\": \"Invoiced Not Collected\"}}, {\"id\": \"eyehm00004\", \"type\": \"shortcut\", \"data\": {\"col\": 3, \"shortcut_name\": \"Billing Board\"}}, {\"id\": \"eyehm00005\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"<span class=\\\"h4\\\"><b>Reports</b></span>\"}}, {\"id\": \"eyehm00006\", \"type\": \"shortcut\", \"data\": {\"col\": 3, \"shortcut_name\": \"Revenue on Hand\"}}, {\"id\": \"eyehm00007\", \"type\": \"shortcut\", \"data\": {\"col\": 3, \"shortcut_name\": \"Won Not Billed\"}}, {\"id\": \"eyehm00008\", \"type\": \"shortcut\", \"data\": {\"col\": 3, \"shortcut_name\": \"Billing Pipeline\"}}, {\"id\": \"eyehm00009\", \"type\": \"shortcut\", \"data\": {\"col\": 3, \"shortcut_name\": \"Collections\"}}, {\"id\": \"eyehm00010\", \"type\": \"shortcut\", \"data\": {\"col\": 3, \"shortcut_name\": \"Deal PL\"}}, {\"id\": \"eyehm00011\", \"type\": \"shortcut\", \"data\": {\"col\": 3, \"shortcut_name\": \"Pricing Turnaround\"}}]",
  "creation": "2026-10-12 15:16:06.469767",
  "custom_blocks": [],
  "docstatus": 0,
@@ -26,7 +22,7 @@
  "label": "Eye Home",
  "link_type": "DocType",
  "links": [],
- "modified": "2026-10-12 16:36:57.179324",
+ "modified": "2026-10-14 01:30:00.000000",
  "modified_by": "Administrator",
  "module": "Eye Home",
  "name": "Eye Home",
@@ -46,6 +42,18 @@
   {
    "label": "Overdue Pricing Requests",
    "number_card_name": "Overdue Pricing Requests"
+  },
+  {
+   "label": "Waiting on Accounts",
+   "number_card_name": "Waiting on Accounts"
+  },
+  {
+   "label": "To Invoice",
+   "number_card_name": "To Invoice"
+  },
+  {
+   "label": "Invoiced Not Collected",
+   "number_card_name": "Invoiced Not Collected"
   }
  ],
  "owner": "Administrator",
@@ -54,6 +62,15 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Management"
+  },
+  {
+   "role": "Sales Manager"
+  },
+  {
+   "role": "Accounts Manager"
   }
  ],
  "sequence_id": 0.0,
@@ -65,6 +82,50 @@
    "label": "Deals Board",
    "link_to": "Opportunity",
    "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "Kanban",
+   "kanban_board": "Billing",
+   "label": "Billing Board",
+   "link_to": "Billing Request",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "label": "Revenue on Hand",
+   "link_to": "Eye Revenue on Hand",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "label": "Won Not Billed",
+   "link_to": "Eye Won Not Billed",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "label": "Billing Pipeline",
+   "link_to": "Eye Billing Pipeline",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "label": "Collections",
+   "link_to": "Eye Collections",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "label": "Deal PL",
+   "link_to": "Eye Deal PL",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "label": "Pricing Turnaround",
+   "link_to": "Eye Pricing Turnaround",
+   "type": "Report"
   }
  ],
  "standard": 1,

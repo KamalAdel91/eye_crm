@@ -65,13 +65,8 @@ def setup():
     create_custom_fields({
         "Opportunity": [
             {"fieldname": "custom_deal_section", "label": "Deal", "fieldtype": "Section Break", "insert_after": "sales_stage", "module": M},
-            {"fieldname": "custom_service_type", "label": "Service Type", "fieldtype": "Link", "options": "Service Type",
-             "reqd": 1, "insert_after": "custom_deal_section", "module": M},
-            {"fieldname": "custom_deal_nature", "label": "Deal Nature", "fieldtype": "Link", "options": "Deal Nature",
-             "fetch_from": "custom_service_type.deal_nature", "read_only": 1, "insert_after": "custom_service_type", "module": M},
-            {"fieldname": "custom_deal_cb", "fieldtype": "Column Break", "insert_after": "custom_deal_nature", "module": M},
             {"fieldname": "custom_pricing_status", "label": "Pricing", "fieldtype": "Link", "options": "Pricing Status",
-             "read_only": 1, "insert_after": "custom_deal_cb", "module": M},
+             "read_only": 1, "insert_after": "custom_deal_section", "module": M},
             {"fieldname": "custom_po_status", "label": "Purchase Order", "fieldtype": "Link", "options": "PO Status",
              "insert_after": "custom_pricing_status", "module": M},
             {"fieldname": "custom_expected_po_date", "label": "Expected PO Date", "fieldtype": "Date",
@@ -90,7 +85,7 @@ def setup():
     print("Eye CRM structure ready")
 
 
-APP_ROLES = {"System Manager", "Sales User", "Sales Manager", "Production"}
+APP_ROLES = {"System Manager", "Sales User", "Sales Manager", "Production", "Accounts User", "Accounts Manager", "Management"}
 EYE_SIDEBAR_LINKS = {"Service Type", "Deal Nature", "PO Status", "Pricing Status", "Pricing Request"}
 
 
@@ -143,8 +138,6 @@ def setup_app_ui():
         "Deals by Stage": {"chart_type": "Group By", "document_type": "Opportunity", "group_by_type": "Count",
                            "group_by_based_on": "sales_stage", "type": "Bar",
                            "filters_json": _f(("Opportunity", "status", "!=", "Lost"))},
-        "Deals by Service Type": {"chart_type": "Group By", "document_type": "Opportunity", "group_by_type": "Count",
-                                  "group_by_based_on": "custom_service_type", "type": "Donut", "filters_json": "[]"},
         "Pricing Requests per Month": {"chart_type": "Count", "document_type": "Pricing Request", "based_on": "creation",
                                        "timeseries": 1, "timespan": "Last Year", "time_interval": "Monthly",
                                        "type": "Line", "filters_json": _f(("Pricing Request", "docstatus", "!=", "2"))},
@@ -168,7 +161,6 @@ def setup_app_ui():
             "content": _blocks(("header", None, "Overview", 12),
                                *[("number_card", "number_card_name", c, 3) for c in cards],
                                ("chart", "chart_name", "Deals by Stage", 6),
-                               ("chart", "chart_name", "Deals by Service Type", 6),
                                ("chart", "chart_name", "Pricing Requests per Month", 12)),
         },
         "Eye Sales": {
@@ -381,10 +373,8 @@ def rebuild_pricing():
         f("custom_pricing_status", "custom_pricing_tab", label="Pricing Status", fieldtype="Link",
           options="Pricing Status", read_only=1, in_standard_filter=1),
         f("custom_pricing_required_by", "custom_pricing_status", label="Required By", fieldtype="Date"),
-        f("custom_pricing_cb", "custom_pricing_required_by", fieldtype="Column Break"),
-        f("custom_pricing_notes", "custom_pricing_cb", label="Notes for Production", fieldtype="Small Text"),
-        f("custom_requirements_sb", "custom_pricing_notes", label="Requirements", fieldtype="Section Break"),
-        f("custom_requirements", "custom_requirements_sb", label="Requirements", fieldtype="Table",
+        f("custom_pricing_notes", "custom_pricing_required_by", label="Notes for Production", fieldtype="Small Text"),
+        f("custom_requirements", "custom_pricing_notes", label="Requirements", fieldtype="Table",
           options="Opportunity Requirement"),
         f("custom_costing_sb", "custom_requirements", label="Costing", fieldtype="Section Break"),
         f("custom_default_margin", "custom_costing_sb", label="Margin for all lines %", fieldtype="Percent"),
@@ -729,9 +719,9 @@ def restyle_sidebars():
 def create_deals_board():
     meta = frappe.get_meta("Opportunity")
     extra = [f for f in ("custom_pricing_status", "custom_total_selling", "custom_total_cost", "total",
-                         "opportunity_amount", "currency", "customer_name", "custom_service_type")
+                         "opportunity_amount", "currency", "customer_name")
              if meta.has_field(f)]
-    card = [f for f in ("customer_name", "custom_service_type", "expected_closing") if meta.has_field(f)]
+    card = [f for f in ("customer_name", "total", "expected_closing") if meta.has_field(f)]
 
     if frappe.db.exists("Kanban Board", "Deals"):
         board = frappe.get_doc("Kanban Board", "Deals")
@@ -788,9 +778,9 @@ def create_deals_board():
 def create_deals_board():
     meta = frappe.get_meta("Opportunity")
     extra = [f for f in ("custom_pricing_status", "custom_total_selling", "custom_total_cost", "total",
-                         "opportunity_amount", "currency", "customer_name", "custom_service_type")
+                         "opportunity_amount", "currency", "customer_name")
              if meta.has_field(f)]
-    card = [f for f in ("customer_name", "custom_service_type", "expected_closing") if meta.has_field(f)]
+    card = [f for f in ("customer_name", "total", "expected_closing") if meta.has_field(f)]
 
     if frappe.db.exists("Kanban Board", "Deals"):
         board = frappe.get_doc("Kanban Board", "Deals")

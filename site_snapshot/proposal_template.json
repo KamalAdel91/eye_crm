@@ -1,0 +1,24 @@
+[
+ {
+  "name": "Eye Advertising",
+  "docstatus": 0,
+  "idx": 1,
+  "template_name": "Eye Advertising",
+  "is_default": 1,
+  "brand_color": "#1DA7DF",
+  "logo": "/files/eye_logo.png",
+  "logo_white": "/files/eye_logo_white.png",
+  "check_icon": "/files/eye_check.png",
+  "cover_title": "Technical &\nFinancial Proposal",
+  "side_text": "Advertising & Technology Services",
+  "about_title": "Eye Advertising",
+  "about": "Is a specialized company in the field of supplying Marketing and Technology products and services for companies in Egypt, Gulf and Africa. With a great passion to provide customized solutions to companies which enable them to enhance success of their activities and effectiveness of their business by the aid of our accurate solutions.",
+  "why_title": "Why Eye?",
+  "why_points": "Extensive experience in delivering marketing, advertising campaigns for different industries.\nWe don't provide over the shelf services or products; we tailor it for you.\nSeeking always success stories.\nWe talk and do the digital advertising language.\nFull set of portfolios that can support you across all your marketing activities.\nAffordable quality.\nLong term relationship with our customers is our doctrine.",
+  "references_title": "Sample Client References",
+  "references_image": "/files/eye_client_references.jpeg",
+  "prices_title": "Prices & Payment Schedule",
+  "terms_template": "Eye Proposal Terms",
+  "doctype": "Proposal Template"
+ }
+]

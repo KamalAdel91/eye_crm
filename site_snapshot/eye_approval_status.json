@@ -1,0 +1,23 @@
+[
+ {
+  "name": "Pending",
+  "docstatus": 0,
+  "idx": 6,
+  "title": "Pending",
+  "doctype": "Eye Approval Status"
+ },
+ {
+  "name": "Approved",
+  "docstatus": 0,
+  "idx": 0,
+  "title": "Approved",
+  "doctype": "Eye Approval Status"
+ },
+ {
+  "name": "Rejected",
+  "docstatus": 0,
+  "idx": 1,
+  "title": "Rejected",
+  "doctype": "Eye Approval Status"
+ }
+]

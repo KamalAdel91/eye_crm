@@ -1,0 +1,163 @@
+{
+ "card_fields": [
+  {
+   "docstatus": 0,
+   "doctype": "Kanban Board Field",
+   "fieldname": "customer_name",
+   "idx": 1,
+   "name": "eyebilcar1",
+   "parent": "Billing",
+   "parentfield": "card_fields",
+   "parenttype": "Kanban Board"
+  },
+  {
+   "docstatus": 0,
+   "doctype": "Kanban Board Field",
+   "fieldname": "opportunity",
+   "idx": 2,
+   "name": "eyebilcar2",
+   "parent": "Billing",
+   "parentfield": "card_fields",
+   "parenttype": "Kanban Board"
+  },
+  {
+   "docstatus": 0,
+   "doctype": "Kanban Board Field",
+   "fieldname": "expected_date",
+   "idx": 3,
+   "name": "eyebilcar3",
+   "parent": "Billing",
+   "parentfield": "card_fields",
+   "parenttype": "Kanban Board"
+  }
+ ],
+ "columns": [
+  {
+   "column_name": "To be invoiced",
+   "docstatus": 0,
+   "doctype": "Kanban Board Column",
+   "idx": 1,
+   "indicator": "Gray",
+   "name": "eyebilcol1",
+   "parent": "Billing",
+   "parentfield": "columns",
+   "parenttype": "Kanban Board",
+   "status": "Active"
+  },
+  {
+   "column_name": "Finance, please issue",
+   "docstatus": 0,
+   "doctype": "Kanban Board Column",
+   "idx": 2,
+   "indicator": "Orange",
+   "name": "eyebilcol2",
+   "parent": "Billing",
+   "parentfield": "columns",
+   "parenttype": "Kanban Board",
+   "status": "Active"
+  },
+  {
+   "column_name": "Invoiced",
+   "docstatus": 0,
+   "doctype": "Kanban Board Column",
+   "idx": 3,
+   "indicator": "Blue",
+   "name": "eyebilcol3",
+   "parent": "Billing",
+   "parentfield": "columns",
+   "parenttype": "Kanban Board",
+   "status": "Active"
+  },
+  {
+   "column_name": "Collected",
+   "docstatus": 0,
+   "doctype": "Kanban Board Column",
+   "idx": 4,
+   "indicator": "Green",
+   "name": "eyebilcol4",
+   "parent": "Billing",
+   "parentfield": "columns",
+   "parenttype": "Kanban Board",
+   "status": "Active"
+  }
+ ],
+ "creation": "2026-10-13 21:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Kanban Board",
+ "field_name": "billing_stage",
+ "fields": "[\"billing_stage\", \"opportunity\", \"customer_name\", \"expected_date\", \"total\", \"currency\", \"invoice_number\", \"collected_amount\"]",
+ "footer_date_field": "Modified",
+ "group_by_fields": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "kanban_board_name": "Billing",
+ "modified": "2026-10-13 21:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Eye CRM",
+ "name": "Billing",
+ "owner": "Administrator",
+ "preview_fields": [
+  {
+   "docstatus": 0,
+   "doctype": "Kanban Board Field",
+   "fieldname": "customer_name",
+   "idx": 1,
+   "name": "eyebilpre1",
+   "parent": "Billing",
+   "parentfield": "preview_fields",
+   "parenttype": "Kanban Board",
+   "label": "Customer"
+  },
+  {
+   "docstatus": 0,
+   "doctype": "Kanban Board Field",
+   "fieldname": "opportunity",
+   "idx": 2,
+   "name": "eyebilpre2",
+   "parent": "Billing",
+   "parentfield": "preview_fields",
+   "parenttype": "Kanban Board",
+   "label": "Deal"
+  },
+  {
+   "docstatus": 0,
+   "doctype": "Kanban Board Field",
+   "fieldname": "sales_order",
+   "idx": 3,
+   "name": "eyebilpre3",
+   "parent": "Billing",
+   "parentfield": "preview_fields",
+   "parenttype": "Kanban Board",
+   "label": "Sales Order"
+  },
+  {
+   "docstatus": 0,
+   "doctype": "Kanban Board Field",
+   "fieldname": "expected_date",
+   "idx": 4,
+   "name": "eyebilpre4",
+   "parent": "Billing",
+   "parentfield": "preview_fields",
+   "parenttype": "Kanban Board",
+   "label": "Expected Invoice Date"
+  },
+  {
+   "docstatus": 0,
+   "doctype": "Kanban Board Field",
+   "fieldname": "invoice_number",
+   "idx": 5,
+   "name": "eyebilpre5",
+   "parent": "Billing",
+   "parentfield": "preview_fields",
+   "parenttype": "Kanban Board",
+   "label": "Invoice No"
+  }
+ ],
+ "private": 0,
+ "reference_doctype": "Billing Request",
+ "show_assigned_to": 1,
+ "show_labels": 0,
+ "show_tags_on_card": 0,
+ "title_field": "customer_name",
+ "use_kanban_v2": 1
+}
