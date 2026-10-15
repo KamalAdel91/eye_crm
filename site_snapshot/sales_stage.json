@@ -1,0 +1,44 @@
+[
+ {
+  "name": "Open Project",
+  "docstatus": 0,
+  "idx": 0,
+  "stage_name": "Open Project",
+  "doctype": "Sales Stage"
+ },
+ {
+  "name": "Needs Approval",
+  "docstatus": 0,
+  "idx": 8,
+  "stage_name": "Needs Approval",
+  "doctype": "Sales Stage"
+ },
+ {
+  "name": "Quotation",
+  "docstatus": 0,
+  "idx": 9,
+  "stage_name": "Quotation",
+  "doctype": "Sales Stage"
+ },
+ {
+  "name": "Project Opened",
+  "docstatus": 0,
+  "idx": 4,
+  "stage_name": "Project Opened",
+  "doctype": "Sales Stage"
+ },
+ {
+  "name": "Deals in Hand",
+  "docstatus": 0,
+  "idx": 3,
+  "stage_name": "Deals in Hand",
+  "doctype": "Sales Stage"
+ },
+ {
+  "name": "Estimation",
+  "docstatus": 0,
+  "idx": 2,
+  "stage_name": "Estimation",
+  "doctype": "Sales Stage"
+ }
+]

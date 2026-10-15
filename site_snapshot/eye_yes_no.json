@@ -1,0 +1,16 @@
+[
+ {
+  "name": "No",
+  "docstatus": 0,
+  "idx": 0,
+  "value": "No",
+  "doctype": "Eye Yes No"
+ },
+ {
+  "name": "Yes",
+  "docstatus": 0,
+  "idx": 0,
+  "value": "Yes",
+  "doctype": "Eye Yes No"
+ }
+]

@@ -1,20 +1,5 @@
 [
  {
-  "name": "PCH-2026-00031",
-  "docstatus": 0,
-  "idx": 0,
-  "pricing_request": "PRQ-2026-00030",
-  "opportunity": "CRM-OPP-2026-00015",
-  "requested_by_side": "Production",
-  "status": "Requested",
-  "decided_by": null,
-  "reason": "Test",
-  "response": null,
-  "payload": null,
-  "doctype": "Pricing Change",
-  "lines": []
- },
- {
   "name": "PCH-2026-00022",
   "docstatus": 0,
   "idx": 0,

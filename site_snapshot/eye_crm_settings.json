@@ -1,0 +1,40 @@
+[
+ {
+  "name": "Eye CRM Settings",
+  "docstatus": 0,
+  "idx": "0",
+  "approve_below_minimum": 1,
+  "reapprove_on_pl_change": 1,
+  "doctype": "Eye CRM Settings",
+  "approver_roles": [
+   {
+    "name": "b87mbvg9e4",
+    "owner": "Administrator",
+    "creation": "2026-10-15 17:07:22.323715",
+    "modified": "2026-10-15 17:07:22.323715",
+    "modified_by": "Administrator",
+    "docstatus": 0,
+    "idx": 1,
+    "role": "Accounts User",
+    "parent": "Eye CRM Settings",
+    "parentfield": "approver_roles",
+    "parenttype": "Eye CRM Settings",
+    "doctype": "Eye Approver Role"
+   },
+   {
+    "name": "b879eer2o5",
+    "owner": "Administrator",
+    "creation": "2026-10-15 17:07:22.323933",
+    "modified": "2026-10-15 17:07:22.323933",
+    "modified_by": "Administrator",
+    "docstatus": 0,
+    "idx": 2,
+    "role": "Accounts Manager",
+    "parent": "Eye CRM Settings",
+    "parentfield": "approver_roles",
+    "parenttype": "Eye CRM Settings",
+    "doctype": "Eye Approver Role"
+   }
+  ]
+ }
+]
