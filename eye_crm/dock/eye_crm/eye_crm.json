@@ -24,14 +24,6 @@
   {
    "added": 0,
    "hidden": 0,
-   "icon": "factory",
-   "link_to": "Eye Production",
-   "link_type": "Workspace",
-   "title": "Production"
-  },
-  {
-   "added": 0,
-   "hidden": 0,
    "icon": "receipt",
    "link_to": "Eye Accounts",
    "link_type": "Workspace",

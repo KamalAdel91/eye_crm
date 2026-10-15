@@ -20,13 +20,7 @@
   "items",
   "status",
   "costs_sb",
-  "costs",
-  "qa_sb",
-  "production_question",
-  "sales_reply",
-  "pending_change",
-  "sales_started",
-  "approved_costs"
+  "costs"
  ],
  "fields": [
   {
@@ -114,46 +108,6 @@
    "label": "Cost Elements",
    "options": "Pricing Request Cost",
    "permlevel": 1
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "qa_sb",
-   "fieldtype": "Section Break",
-   "label": "Questions"
-  },
-  {
-   "fieldname": "production_question",
-   "fieldtype": "Small Text",
-   "label": "Question from Production",
-   "read_only": 1
-  },
-  {
-   "fieldname": "sales_reply",
-   "fieldtype": "Small Text",
-   "label": "Reply from Sales",
-   "read_only": 1
-  },
-  {
-   "fieldname": "pending_change",
-   "fieldtype": "Link",
-   "label": "Pending Change",
-   "options": "Pricing Change",
-   "read_only": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "sales_started",
-   "fieldtype": "Check",
-   "hidden": 1,
-   "label": "Sales Started",
-   "read_only": 1
-  },
-  {
-   "fieldname": "approved_costs",
-   "fieldtype": "Long Text",
-   "hidden": 1,
-   "label": "Approved Costs",
-   "read_only": 1
   }
  ],
  "grid_page_length": 50,
@@ -235,30 +189,6 @@
    "read": 1,
    "report": 1,
    "role": "Sales User",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Production",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "permlevel": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Production",
    "share": 1,
    "write": 1
   }
