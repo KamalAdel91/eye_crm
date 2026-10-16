@@ -46,6 +46,13 @@ def approved_cost_sheet_name(deal_name):
 # services
 
 
+def fill_services(deal):
+	"""What ERPNext leaves empty on a service: its unit."""
+	for row in deal.get("items"):
+		if row.item_code and not row.uom:
+			row.uom = frappe.get_cached_value("Item", row.item_code, "stock_uom")
+
+
 def number_services(deal):
 	"""Give each new service the next number. A number is never used twice once a P&L knows it."""
 	used = [cint(r.eye_service_no) for r in deal.get("items") if cint(r.eye_service_no)]
@@ -105,6 +112,7 @@ def get_cost_sheet(deal, create=False):
 		}
 	)
 	sheet.flags.ignore_permissions = True
+	sheet.flags.eye_system = True
 	sheet.insert()
 	deal.db_set("eye_cost_sheet", sheet.name, update_modified=False)
 	return sheet
@@ -230,6 +238,7 @@ def price_pl(pl):
 	pl.update(total)
 	pl.base_total_selling = flt(total["total_selling"] * (flt(pl.conversion_rate) or 1.0), precision)
 	pl.below_minimum = cint(any(cint(line.below_minimum) for line in pl.get("lines")))
+	pl.signature = signature(pl)
 
 
 def signature(pl) -> str:

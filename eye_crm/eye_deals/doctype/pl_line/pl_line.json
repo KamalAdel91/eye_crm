@@ -118,7 +118,8 @@
    "fieldname": "margin",
    "fieldtype": "Percent",
    "in_list_view": 1,
-   "label": "Margin"
+   "label": "Margin",
+   "precision": "2"
   },
   {
    "columns": 1,
@@ -164,6 +165,7 @@
    "fieldname": "min_margin",
    "fieldtype": "Percent",
    "label": "Minimum Margin",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -187,7 +189,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-10-16 10:57:29.529402",
+ "modified": "2026-10-16 11:26:39.786342",
  "modified_by": "Administrator",
  "module": "Eye Deals",
  "name": "PL Line",

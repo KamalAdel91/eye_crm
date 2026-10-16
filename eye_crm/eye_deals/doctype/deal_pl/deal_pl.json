@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_bulk_edit": 1,
- "allow_rename": 0,
  "autoname": "PL-.YYYY.-.#####",
  "creation": "2026-10-16 10:49:35.749999",
  "description": "The deal's P&L: cost, margin and selling price of each service. The only place prices are set.",
@@ -33,6 +32,7 @@
   "column_break_12",
   "base_total_selling",
   "below_minimum",
+  "signature",
   "approval_section",
   "approval_status",
   "approval_reasons",
@@ -187,6 +187,7 @@
    "fieldtype": "Percent",
    "in_list_view": 1,
    "label": "Margin",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -270,12 +271,22 @@
    "options": "Deal PL",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "description": "What a quotation copies from the P&L; a quotation with another one is out of date.",
+   "fieldname": "signature",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Signature",
+   "no_copy": 1,
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-10-16 10:49:35.749999",
+ "modified": "2026-10-16 11:26:40.511521",
  "modified_by": "Administrator",
  "module": "Eye Deals",
  "name": "Deal PL",

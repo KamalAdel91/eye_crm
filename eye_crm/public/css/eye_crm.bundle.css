@@ -1,1 +1,181 @@
-/* Eye CRM */
+/* Eye CRM: the deal's Cost Sheet, P&L and Quotations views */
+
+.eye-view {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding-md, 12px);
+}
+
+.eye-toolbar {
+	display: flex;
+	align-items: center;
+	gap: var(--padding-sm, 8px);
+	flex-wrap: wrap;
+}
+
+.eye-doc {
+	color: var(--text-muted);
+	font-size: var(--text-sm);
+	display: inline-flex;
+	gap: 6px;
+	align-items: center;
+}
+
+.eye-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: var(--padding-sm, 8px);
+}
+
+.eye-card {
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-md, 8px);
+	padding: 10px 14px;
+	background: var(--card-bg, var(--bg-color));
+}
+
+.eye-card-label {
+	font-size: var(--text-xs, 11px);
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.eye-card-value {
+	font-size: var(--text-xl, 18px);
+	font-weight: 600;
+	color: var(--text-color);
+	margin-top: 2px;
+	font-variant-numeric: tabular-nums;
+}
+
+.eye-card.eye-strong {
+	border-color: var(--primary, #1da7df);
+}
+
+.eye-card.eye-good .eye-card-value {
+	color: var(--green-600, #16a34a);
+}
+
+.eye-card.eye-bad {
+	border-color: var(--red-300, #fca5a5);
+}
+
+.eye-card.eye-bad .eye-card-value {
+	color: var(--red-600, #dc2626);
+}
+
+.eye-table-wrap {
+	overflow-x: auto;
+}
+
+.eye-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--text-sm, 13px);
+}
+
+.eye-table th {
+	text-align: left;
+	font-weight: 500;
+	color: var(--text-muted);
+	background: var(--subtle-fg, var(--gray-100));
+	padding: 6px 8px;
+	border-bottom: 1px solid var(--border-color);
+	white-space: nowrap;
+}
+
+.eye-table td {
+	padding: 6px 8px;
+	border-bottom: 1px solid var(--border-color);
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+.eye-table td.eye-wrap {
+	white-space: normal;
+	min-width: 160px;
+}
+
+.eye-table .eye-num {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.eye-table tr.eye-below td {
+	background: var(--red-50, #fef2f2);
+}
+
+.eye-group {
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-md, 8px);
+	overflow: hidden;
+}
+
+.eye-group-title {
+	padding: 8px 10px;
+	font-weight: 600;
+	background: var(--subtle-accent, var(--gray-50));
+	display: flex;
+	gap: 8px;
+	align-items: baseline;
+}
+
+.eye-group-total {
+	margin-left: auto;
+	font-weight: 500;
+	font-variant-numeric: tabular-nums;
+}
+
+.eye-group .eye-table th {
+	background: transparent;
+}
+
+.eye-empty,
+.eye-note {
+	color: var(--text-muted);
+	font-size: var(--text-sm, 13px);
+	padding: 4px 2px;
+}
+
+.eye-group .eye-empty {
+	padding: 8px 10px;
+}
+
+.eye-alert {
+	border-radius: var(--border-radius-md, 8px);
+	padding: 10px 14px;
+	font-size: var(--text-sm, 13px);
+	border: 1px solid transparent;
+}
+
+.eye-alert ul {
+	margin: 6px 0 0;
+	padding-left: 18px;
+}
+
+.eye-alert-warn {
+	background: var(--yellow-50, #fefce8);
+	border-color: var(--yellow-300, #fde047);
+}
+
+.eye-alert-bad {
+	background: var(--red-50, #fef2f2);
+	border-color: var(--red-300, #fca5a5);
+}
+
+.eye-alert-good {
+	background: var(--green-50, #f0fdf4);
+	border-color: var(--green-300, #86efac);
+}
+
+.eye-alert-info {
+	background: var(--blue-50, #eff6ff);
+	border-color: var(--blue-200, #bfdbfe);
+}
+
+.eye-revisions {
+	font-size: var(--text-sm, 13px);
+	color: var(--text-muted);
+}

@@ -88,7 +88,7 @@ def make_quotation(deal, quotation_type=FULL, system=False):
 			"eye_quotation_type": quotation_type,
 			"eye_revision_of": previous.name if previous else None,
 			"eye_pl": pl.name,
-			"eye_pl_signature": deals.signature(pl),
+			"eye_pl_signature": pl.signature,
 			"eye_prepared_by": frappe.utils.get_fullname(deal.opportunity_owner)
 			if deal.opportunity_owner
 			else None,

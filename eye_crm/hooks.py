@@ -12,7 +12,7 @@ add_to_apps_screen = [
 		"name": "eye_crm",
 		"logo": "/assets/eye_crm/images/eye-crm.svg",
 		"title": "Eye CRM",
-		"route": "/desk/opportunity",
+		"route": "/desk/eye-home",
 		"has_permission": "eye_crm.eye.permissions.has_app_permission",
 	}
 ]
@@ -31,7 +31,6 @@ app_include_css = "eye_crm.bundle.css"
 doctype_js = {
 	"Opportunity": "public/js/opportunity.js",
 	"Quotation": "public/js/quotation.js",
-	"Sales Stage": "public/js/sales_stage.js",
 }
 doctype_list_js = {"Quotation": "public/js/quotation_list.js"}
 

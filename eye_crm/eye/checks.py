@@ -47,7 +47,7 @@ def _quotation_matches(deal):
 	if not quotation:
 		return []
 	pl = deals.get_pl(deal)
-	if pl and quotation.eye_pl_signature != deals.signature(pl):
+	if pl and quotation.eye_pl_signature != pl.signature:
 		return [quotation.name]
 	return []
 

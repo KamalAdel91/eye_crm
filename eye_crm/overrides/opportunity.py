@@ -14,6 +14,7 @@ class EyeOpportunity:
 		if self.flags.get("eye_discarding"):
 			stages.apply_stage_fields(self)
 			return
+		deals.fill_services(self)
 		deals.number_services(self)
 		self.eye_validate_stage()
 		self.eye_validate_services()
@@ -48,7 +49,8 @@ class EyeOpportunity:
 			cint(line.service_no): (line.item_code or "", flt(line.qty), line.uom or "") for line in pl.lines
 		}
 		current = deals.services_snapshot(self, financial_only=True)
-		if approved == current:
+		same_money = pl.currency == self.currency and flt(pl.conversion_rate) == flt(self.conversion_rate)
+		if approved == current and same_money:
 			return
 		if self.eye_stage_type in stages.LOCKED_TYPES and not self.flags.get("eye_system_move"):
 			frappe.throw(
@@ -71,6 +73,7 @@ class EyeOpportunity:
 		deals.sync_deal(self)
 		action, arg = self.flags.get("eye_after_save") or (None, None)
 		self.flags.eye_after_save = None
+		self.flags.eye_system_move = False
 		if action == "quotation":
 			from eye_crm.eye.quotation import latest_quotation, make_quotation
 

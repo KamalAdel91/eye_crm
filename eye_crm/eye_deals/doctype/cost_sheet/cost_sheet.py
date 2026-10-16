@@ -11,6 +11,9 @@ from eye_crm.eye import stages
 
 
 class CostSheet(Document):
+	def before_insert(self):
+		check_one_per_deal(self)
+
 	def validate(self):
 		deal = frappe.get_doc("Opportunity", self.opportunity)
 		if not self.flags.get("eye_system"):
@@ -67,3 +70,19 @@ def check_deal_unlocked(deal, doc):
 		)
 	if doc.docstatus == 0 and cint(doc.get("superseded")):
 		frappe.throw(_("{0} {1} was replaced by a newer revision.").format(_(doc.doctype), doc.name))
+
+
+def check_one_per_deal(doc):
+	"""A deal has one Cost Sheet and one P&L; a revision is made by the app, from the deal."""
+	if doc.flags.get("eye_system"):
+		return
+	existing = frappe.db.get_value(
+		doc.doctype, {"opportunity": doc.opportunity, "docstatus": ["<", 2], "superseded": 0}, "name"
+	)
+	if existing:
+		frappe.throw(
+			_("Deal {0} already has {1} {2}: change that one, from the deal.").format(
+				frappe.bold(doc.opportunity), _(doc.doctype), frappe.bold(existing)
+			),
+			title=_("One per Deal"),
+		)

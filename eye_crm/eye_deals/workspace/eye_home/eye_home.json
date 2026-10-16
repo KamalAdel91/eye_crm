@@ -1,0 +1,79 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"eyehome0hd\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"<span class=\\\"h4\\\"><b>Deals</b></span>\"}}, {\"id\": \"eyehome000\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals\", \"col\": 3}}, {\"id\": \"eyehome001\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Cost Sheets\", \"col\": 3}}, {\"id\": \"eyehome002\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"P&Ls\", \"col\": 3}}, {\"id\": \"eyehome003\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Quotations\", \"col\": 3}}, {\"id\": \"eyehome004\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Orders\", \"col\": 3}}, {\"id\": \"eyehome005\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Stages\", \"col\": 3}}, {\"id\": \"eyehome006\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Eye CRM Settings\", \"col\": 3}}]",
+ "creation": "2026-10-16 12:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "hide_custom": 0,
+ "icon": "chart-column",
+ "idx": 0,
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "label": "Eye Home",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2026-10-16 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Eye Deals",
+ "name": "Eye Home",
+ "number_cards": [],
+ "owner": "Administrator",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 0.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Deals",
+   "link_to": "Opportunity",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Cost Sheets",
+   "link_to": "Cost Sheet",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "P&Ls",
+   "link_to": "Deal PL",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "label": "Quotations",
+   "link_to": "Quotation",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Sales Orders",
+   "link_to": "Sales Order",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "label": "Sales Stages",
+   "link_to": "Sales Stage",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "label": "Eye CRM Settings",
+   "link_to": "Eye CRM Settings",
+   "type": "DocType"
+  }
+ ],
+ "standard": 1,
+ "title": "Eye Home",
+ "type": "Workspace"
+}

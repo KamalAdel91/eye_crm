@@ -159,6 +159,8 @@ def discard(deal_name):
 	deal.reload()
 	if approved_pl:
 		restore_services(deal, approved_pl)
+		deal.currency = approved_pl.currency
+		deal.conversion_rate = approved_pl.conversion_rate
 	deal.eye_pl = approved_pl.name if approved_pl else deal.eye_pl
 	deal.eye_cost_sheet = approved_sheet.name if approved_sheet else deal.eye_cost_sheet
 	deal.eye_change_pending = 0

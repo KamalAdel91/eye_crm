@@ -17,7 +17,7 @@ def delivery_date():
 
 def make_sales_order(deal, pl, quotation=None):
 	"""Make and submit the Sales Order of a project that opens."""
-	if quotation and quotation.docstatus == 1 and quotation.eye_pl_signature == deals.signature(pl):
+	if quotation and quotation.docstatus == 1 and quotation.eye_pl_signature == pl.signature:
 		from erpnext.selling.doctype.quotation.quotation import _make_sales_order
 
 		so = _make_sales_order(quotation.name, ignore_permissions=True)

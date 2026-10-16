@@ -6,10 +6,13 @@ from frappe import _
 from frappe.model.document import Document
 
 from eye_crm.eye import deal as deals
-from eye_crm.eye_deals.doctype.cost_sheet.cost_sheet import check_deal_unlocked
+from eye_crm.eye_deals.doctype.cost_sheet.cost_sheet import check_deal_unlocked, check_one_per_deal
 
 
 class DealPL(Document):
+	def before_insert(self):
+		check_one_per_deal(self)
+
 	def validate(self):
 		if not self.flags.get("eye_system"):
 			check_deal_unlocked(frappe.get_doc("Opportunity", self.opportunity), self)
