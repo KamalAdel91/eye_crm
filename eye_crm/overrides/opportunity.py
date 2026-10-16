@@ -51,6 +51,7 @@ class EyeOpportunity:
 		current = deals.services_snapshot(self, financial_only=True)
 		same_money = pl.currency == self.currency and flt(pl.conversion_rate) == flt(self.conversion_rate)
 		if approved == current and same_money:
+			self.eye_note_free_change(pl)
 			return
 		if self.eye_stage_type in stages.LOCKED_TYPES and not self.flags.get("eye_system_move"):
 			frappe.throw(
@@ -60,6 +61,23 @@ class EyeOpportunity:
 		if pl.docstatus == 1:
 			self.flags.eye_needs_revision = True
 			self.eye_change_pending = 1
+			frappe.msgprint(
+				_("A financial change: it applies once it is approved (Deal > Send Change for Approval)."),
+				alert=True,
+				indicator="orange",
+			)
+
+	def eye_note_free_change(self, pl):
+		"""After the project opened, words change without an approval: say so when they do."""
+		before = self.get_doc_before_save()
+		if pl.docstatus != 1 or not before:
+			return
+		if deals.services_snapshot(before) != deals.services_snapshot(self):
+			frappe.msgprint(
+				_("Saved. Descriptions, notes and attachments need no approval."),
+				alert=True,
+				indicator="green",
+			)
 
 	def on_update(self):
 		super().on_update()
@@ -87,6 +105,16 @@ class EyeOpportunity:
 			from eye_crm.eye.opening import open_project
 
 			open_project(self)
+
+	def on_trash(self):
+		if getattr(super(), "on_trash", None):
+			super().on_trash()
+		# its draft Cost Sheet and P&L are part of it; a submitted one keeps the deal (Frappe's links)
+		for doctype in ("Deal PL", "Cost Sheet"):
+			for name in frappe.get_all(
+				doctype, filters={"opportunity": self.name, "docstatus": 0}, pluck="name"
+			):
+				frappe.delete_doc(doctype, name, ignore_permissions=True, force=True)
 
 	def eye_share_with_salesperson(self):
 		"""Sales Users see their own deals and the ones shared with them: the Salesperson gets it."""

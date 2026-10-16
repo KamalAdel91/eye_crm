@@ -42,13 +42,14 @@ def make_quotation(deal, quotation_type=FULL, system=False):
 		if not previous:
 			frappe.throw(_("There is no quotation yet to show changes against: make a Full one."))
 		before = {cint(r.eye_service_no): r for r in previous.items}
+		words = {cint(r.eye_service_no): (r.description or "").strip() for r in deal.items}
 		changed = [
 			no
 			for no, line in lines.items()
 			if no not in before
 			or flt(before[no].qty) != flt(line.qty)
 			or flt(before[no].rate) != flt(line.rate)
-			or (before[no].description or "").strip() != (line.description or "").strip()
+			or (before[no].description or "").strip() != words.get(no, "")
 			or before[no].item_code != line.item_code
 		]
 		if not changed:
@@ -67,9 +68,9 @@ def make_quotation(deal, quotation_type=FULL, system=False):
 	quotation.ignore_pricing_rule = 1
 	for row in quotation.items:
 		line = lines[cint(row.eye_service_no)]
+		# prices from the P&L; the words from the deal's services as they are now
 		row.qty = line.qty
 		row.uom = line.uom
-		row.description = line.description
 		row.eye_hide_in_pdf = line.hide_in_pdf
 		row.price_list_rate = line.rate
 		row.discount_percentage = 0

@@ -539,11 +539,10 @@ Object.assign(eye_crm.deal, {
 		this.html(frm, "eye_quotations_html", toolbar + notes + table, { update: () => this.update_quotation(frm) });
 	},
 
-	// a quotation is made before the project opens, or for a change waiting after it opened
+	// a quotation can be made whenever the deal isn't waiting for an approval
 	can_quote(frm, view) {
 		const pl = view.pl;
-		const open = !view.approved_pl || frm.doc.eye_change_pending;
-		return view.can.quote && pl && pl.lines.length && !view.locked && open;
+		return view.can.quote && pl && pl.lines.length && !view.locked;
 	},
 
 	update_quotation(frm) {

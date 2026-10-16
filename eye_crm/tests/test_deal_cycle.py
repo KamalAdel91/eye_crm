@@ -83,6 +83,13 @@ class TestDealDocuments(EyeTestCase):
 		self.assertEqual((line.cost, line.rate), (220, 40))
 		self.assertAlmostEqual(line.margin, 45.0, places=2)
 
+	def test_deleting_a_deal_deletes_its_drafts(self):
+		deal = self.new_deal()
+		sheet, pl = deal.eye_cost_sheet, deal.eye_pl
+		frappe.delete_doc("Opportunity", deal.name)
+		self.assertFalse(frappe.db.exists("Cost Sheet", sheet))
+		self.assertFalse(frappe.db.exists("Deal PL", pl))
+
 	def test_removing_a_service_removes_its_costs(self):
 		deal = self.new_deal()
 		deal.items.pop()
@@ -298,6 +305,10 @@ class TestChanges(EyeTestCase):
 		deal.save()
 		deal.reload()
 		self.assertEqual(deal.eye_change_pending, 0)
+		# a new quotation has the new words at the approved prices
+		quotation = make_quotation(deal)
+		self.assertEqual(quotation.items[0].description, "Bigger letters")
+		self.assertEqual(quotation.eye_pl, deal.eye_pl)
 
 
 class TestVisibility(EyeTestCase):
