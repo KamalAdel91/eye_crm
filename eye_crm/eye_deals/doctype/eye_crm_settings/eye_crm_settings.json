@@ -1,0 +1,262 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "creation": "2026-10-16 10:49:26.813230",
+ "description": "Approvals, deal defaults and the quotation PDF.",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "approvals_tab",
+  "approve_below_minimum",
+  "approve_every_opening",
+  "approve_changes",
+  "column_break_1",
+  "reject_stage",
+  "below_minimum_message",
+  "deals_tab",
+  "default_margin",
+  "auto_quotation",
+  "quotation_valid_days",
+  "column_break_2",
+  "delivery_days",
+  "default_terms",
+  "pdf_tab",
+  "brand_color",
+  "logo",
+  "logo_white",
+  "check_icon",
+  "column_break_3",
+  "cover_title",
+  "side_text",
+  "about_section",
+  "about_title",
+  "about",
+  "why_section",
+  "why_title",
+  "why_points",
+  "references_section",
+  "references_title",
+  "references_image",
+  "prices_section",
+  "prices_title"
+ ],
+ "fields": [
+  {
+   "fieldname": "approvals_tab",
+   "fieldtype": "Tab Break",
+   "label": "Approvals"
+  },
+  {
+   "default": "1",
+   "fieldname": "approve_below_minimum",
+   "fieldtype": "Check",
+   "label": "Approval When a Service Is Below Its Minimum Margin"
+  },
+  {
+   "default": "0",
+   "fieldname": "approve_every_opening",
+   "fieldtype": "Check",
+   "label": "Approval for Every Project Opening"
+  },
+  {
+   "default": "1",
+   "fieldname": "approve_changes",
+   "fieldtype": "Check",
+   "label": "Approval for Financial Changes After the Project Opens"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reject_stage",
+   "fieldtype": "Link",
+   "label": "Stage a Rejected Deal Goes Back To",
+   "options": "Sales Stage"
+  },
+  {
+   "default": "The margin of this service is below its minimum. The project needs approval to open.",
+   "fieldname": "below_minimum_message",
+   "fieldtype": "Small Text",
+   "label": "Below Minimum Warning"
+  },
+  {
+   "fieldname": "deals_tab",
+   "fieldtype": "Tab Break",
+   "label": "Deals"
+  },
+  {
+   "default": "30",
+   "fieldname": "default_margin",
+   "fieldtype": "Percent",
+   "label": "Default Margin"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_quotation",
+   "fieldtype": "Check",
+   "label": "Make the Quotation When a Deal Enters a Quotation Stage"
+  },
+  {
+   "default": "30",
+   "fieldname": "quotation_valid_days",
+   "fieldtype": "Int",
+   "label": "Quotation Valid For (Days)"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "30",
+   "fieldname": "delivery_days",
+   "fieldtype": "Int",
+   "label": "Sales Order Delivery After (Days)"
+  },
+  {
+   "fieldname": "default_terms",
+   "fieldtype": "Link",
+   "label": "Quotation Terms",
+   "options": "Terms and Conditions"
+  },
+  {
+   "fieldname": "pdf_tab",
+   "fieldtype": "Tab Break",
+   "label": "Quotation PDF"
+  },
+  {
+   "default": "#1DA7DF",
+   "fieldname": "brand_color",
+   "fieldtype": "Color",
+   "label": "Brand Color"
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo"
+  },
+  {
+   "fieldname": "logo_white",
+   "fieldtype": "Attach Image",
+   "label": "Logo (White)"
+  },
+  {
+   "fieldname": "check_icon",
+   "fieldtype": "Attach Image",
+   "label": "Check Icon"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Technical &\nFinancial Proposal",
+   "fieldname": "cover_title",
+   "fieldtype": "Small Text",
+   "label": "Cover Title"
+  },
+  {
+   "default": "Advertising & Technology Services",
+   "fieldname": "side_text",
+   "fieldtype": "Data",
+   "label": "Side Text"
+  },
+  {
+   "fieldname": "about_section",
+   "fieldtype": "Section Break",
+   "label": "About"
+  },
+  {
+   "default": "Eye Advertising",
+   "fieldname": "about_title",
+   "fieldtype": "Data",
+   "label": "About Title"
+  },
+  {
+   "description": "One paragraph per line.",
+   "fieldname": "about",
+   "fieldtype": "Text",
+   "label": "About"
+  },
+  {
+   "fieldname": "why_section",
+   "fieldtype": "Section Break",
+   "label": "Why Us"
+  },
+  {
+   "default": "Why Eye?",
+   "fieldname": "why_title",
+   "fieldtype": "Data",
+   "label": "Why Title"
+  },
+  {
+   "description": "One point per line.",
+   "fieldname": "why_points",
+   "fieldtype": "Text",
+   "label": "Why Points"
+  },
+  {
+   "fieldname": "references_section",
+   "fieldtype": "Section Break",
+   "label": "References"
+  },
+  {
+   "default": "Sample Client References",
+   "fieldname": "references_title",
+   "fieldtype": "Data",
+   "label": "References Title"
+  },
+  {
+   "fieldname": "references_image",
+   "fieldtype": "Attach Image",
+   "label": "References Image"
+  },
+  {
+   "fieldname": "prices_section",
+   "fieldtype": "Section Break",
+   "label": "Prices"
+  },
+  {
+   "default": "Prices & Payment Schedule",
+   "fieldname": "prices_title",
+   "fieldtype": "Data",
+   "label": "Prices Title"
+  }
+ ],
+ "grid_page_length": 50,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-10-16 10:49:35.208252",
+ "modified_by": "Administrator",
+ "module": "Eye Deals",
+ "name": "Eye CRM Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

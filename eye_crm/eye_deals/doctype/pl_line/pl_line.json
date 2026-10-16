@@ -1,0 +1,201 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "creation": "2026-10-16 10:49:35.657558",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "service_no",
+  "item_code",
+  "item_name",
+  "description",
+  "qty",
+  "uom",
+  "notes",
+  "attachment",
+  "hide_in_pdf",
+  "column_break_8",
+  "cost",
+  "unit_cost",
+  "margin",
+  "rate",
+  "fixed_price",
+  "amount",
+  "profit",
+  "no_cost",
+  "requires_min_margin",
+  "min_margin",
+  "below_minimum"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "service_no",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "#",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Service",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Service Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "UOM",
+   "options": "UOM",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes",
+   "read_only": 1
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "hide_in_pdf",
+   "fieldtype": "Check",
+   "label": "Hide in PDF",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "unit_cost",
+   "fieldtype": "Currency",
+   "label": "Unit Cost",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "margin",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Margin"
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Unit Price",
+   "options": "currency"
+  },
+  {
+   "columns": 1,
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Selling",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "profit",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Profit",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "The service costs nothing: its price is set by hand.",
+   "fieldname": "no_cost",
+   "fieldtype": "Check",
+   "label": "No Cost"
+  },
+  {
+   "default": "0",
+   "fieldname": "requires_min_margin",
+   "fieldtype": "Check",
+   "label": "Requires Minimum Margin",
+   "read_only": 1
+  },
+  {
+   "fieldname": "min_margin",
+   "fieldtype": "Percent",
+   "label": "Minimum Margin",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "below_minimum",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Below Minimum",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "The price stays when the cost changes, and the margin follows it.",
+   "fieldname": "fixed_price",
+   "fieldtype": "Check",
+   "label": "Price Typed by Hand"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-10-16 10:57:29.529402",
+ "modified_by": "Administrator",
+ "module": "Eye Deals",
+ "name": "PL Line",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
