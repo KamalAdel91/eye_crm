@@ -3,7 +3,7 @@
 # so that v2 can take the name eye_crm. Run it from the bench folder after switching the old app
 # to the v1 branch, with `bench start` still running in its own terminal:
 #
-#   git -C apps/eye_crm fetch origin && git -C apps/eye_crm checkout -B v1 origin/v1
+#   git -C apps/eye_crm fetch --all && git -C apps/eye_crm checkout v1
 #   bash apps/eye_crm/scripts/rename_to_v1.sh
 #
 # Then restart `bench start`.
@@ -30,7 +30,7 @@ elif [ -d "$NEW/eye_crm_v1" ]; then
 	echo "  apps/eye_crm_v1 is already there"
 else
 	echo "apps/eye_crm is not on the v1 branch yet:"
-	echo "  git -C apps/eye_crm fetch origin && git -C apps/eye_crm checkout -B v1 origin/v1"
+	echo "  git -C apps/eye_crm fetch --all && git -C apps/eye_crm checkout v1"
 	exit 1
 fi
 
