@@ -7,7 +7,7 @@ on:
   pull_request:
 
 concurrency:
-  group: version-16-eye_crm-${{ github.event.number }}
+  group: version-16-eye_crm_v1-${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
@@ -88,10 +88,10 @@ jobs:
       - name: Install
         working-directory: /home/runner/frappe-bench
         run: |
-          bench get-app eye_crm $GITHUB_WORKSPACE
+          bench get-app eye_crm_v1 $GITHUB_WORKSPACE
           bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
-          bench --site test_site install-app eye_crm
+          bench --site test_site install-app eye_crm_v1
           bench build
         env:
           CI: 'Yes'
@@ -100,6 +100,6 @@ jobs:
         working-directory: /home/runner/frappe-bench
         run: |
           bench --site test_site set-config allow_tests true
-          bench --site test_site run-tests --app eye_crm
+          bench --site test_site run-tests --app eye_crm_v1
         env:
           TYPE: server

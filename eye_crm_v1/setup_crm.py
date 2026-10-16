@@ -26,7 +26,7 @@ LISTS = {
 
 def _make_list_doctype(name, extra):
     if frappe.db.exists("DocType", name):
-        if frappe.db.get_value("Module Def", frappe.db.get_value("DocType", name, "module"), "app_name") != "eye_crm":
+        if frappe.db.get_value("Module Def", frappe.db.get_value("DocType", name, "module"), "app_name") != "eye_crm_v1":
             frappe.throw(f"DocType '{name}' already exists in another app")
         return
     frappe.get_doc({
@@ -117,7 +117,7 @@ def _f(*conds):
 
 def setup_app_ui():
     for m in ("Eye Home", "Eye Sales", "Eye Production"):
-        _ensure("Module Def", m, {"module_name": m, "app_name": "eye_crm"})
+        _ensure("Module Def", m, {"module_name": m, "app_name": "eye_crm_v1"})
 
     cards = {
         "Open Opportunities": ("Opportunity", _f(("Opportunity", "status", "=", "Open")), None, "#3B82F6"),
@@ -224,11 +224,11 @@ def setup_app_ui():
         ]),
     }
     for title, (icon, items) in sidebars.items():
-        _ensure("Sidebar", title, {"title": title, "module": title, "app": "eye_crm", "header_icon": icon,
+        _ensure("Sidebar", title, {"title": title, "module": title, "app": "eye_crm_v1", "header_icon": icon,
                                    "standard": 1, "items": items})
 
-    if not frappe.db.exists("Dock", {"app": "eye_crm", "standard": 1}):
-        frappe.get_doc({"doctype": "Dock", "app": "eye_crm", "standard": 1, "items": [
+    if not frappe.db.exists("Dock", {"app": "eye_crm_v1", "standard": 1}):
+        frappe.get_doc({"doctype": "Dock", "app": "eye_crm_v1", "standard": 1, "items": [
             {"link_type": "Workspace", "link_to": "Eye Home", "title": "Home", "icon": "chart-column"},
             {"link_type": "Workspace", "link_to": "Eye Sales", "title": "Sales", "icon": "handshake"},
             {"link_type": "Workspace", "link_to": "Eye Production", "title": "Production", "icon": "factory"},

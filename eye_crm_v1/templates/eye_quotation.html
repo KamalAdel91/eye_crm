@@ -4,7 +4,7 @@
 <meta name="pdfkit-margin-bottom" content="0mm">
 <meta name="pdfkit-margin-left" content="0mm">
 <meta name="pdfkit-margin-right" content="0mm">
-{%- set IMG = "/assets/eye_crm/images/quotation/" -%}
+{%- set IMG = "/assets/eye_crm_v1/images/quotation/" -%}
 {%- set by_name = frappe.db.get_value("User", doc.owner, "full_name") or doc.owner -%}
 {%- set contact_name = doc.contact_display or (frappe.db.get_value("Contact", doc.contact_person, "full_name") if doc.contact_person else "") -%}
 {%- set cur = doc.currency -%}

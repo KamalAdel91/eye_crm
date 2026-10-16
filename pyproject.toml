@@ -1,9 +1,9 @@
 [project]
-name = "eye_crm"
+name = "eye_crm_v1"
 authors = [
     { name = "Kamal Adel", email = "Kamal.adel@outlook.com"}
 ]
-description = "Eye CRM"
+description = "Eye CRM v1 (frozen, kept as a reference)"
 requires-python = ">=3.14"
 readme = "README.md"
 dynamic = ["version"]

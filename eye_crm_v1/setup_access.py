@@ -1,6 +1,6 @@
 """Who sees what in Eye: read access for Accounts and Management on the ERPNext documents Eye uses.
 
-run() goes once, when the app is installed (eye_crm.install), and is safe to run again by hand:
+run() goes once, when the app is installed (eye_crm_v1.install), and is safe to run again by hand:
 a permission taken away from the desk later stays taken away. It goes through
 frappe.permissions.add_permission, which first copies a DocType's standard permissions into
 Custom DocPerm when the site has none yet, so no role loses access.
@@ -31,7 +31,7 @@ EYE_ROLES = {"Production", "Management", "Accounts User", "Accounts Manager"}
 
 
 def fixture_doctypes():
-	path = frappe.get_app_path("eye_crm", "setup_data", "custom_docperm.json")
+	path = frappe.get_app_path("eye_crm_v1", "setup_data", "custom_docperm.json")
 	if not os.path.exists(path):
 		return []
 	with open(path) as f:

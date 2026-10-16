@@ -1,6 +1,6 @@
 """Eye CRM self-test: the whole cycle on a real site, then everything is rolled back.
 
-	bench --site SITE execute eye_crm.selftest.run
+	bench --site SITE execute eye_crm_v1.selftest.run
 
 Made for a rehearsal site (a copy of the real one): a customer, an item and a deal go from
 Estimation to Quote approved, a Sales Order is made, an invoice is requested, invoiced and

@@ -5,7 +5,7 @@ setup_data/ are loaded when the app is installed. They are not fixtures: a migra
 them again, so what is changed or deleted from the desk (Customize Form, Client Script, Server
 Script...) stays as it is. A later change from the app comes as a patch that makes that one change.
 
-	bench --site SITE execute eye_crm.install.load_setup_data
+	bench --site SITE execute eye_crm_v1.install.load_setup_data
 		adds only the records the site doesn't have (nothing is overwritten); for a site that
 		lost some of them, or one that had the app before setup_data existed
 """
@@ -37,9 +37,9 @@ ORDER = [
 
 
 def after_install():
-	from eye_crm.setup_access import before_fixtures
+	from eye_crm_v1.setup_access import before_fixtures
 
-	from eye_crm.setup_access import run as read_access
+	from eye_crm_v1.setup_access import run as read_access
 
 	before_fixtures()  # standard permissions are copied before Production's rows are added
 	load_setup_data()
@@ -47,7 +47,7 @@ def after_install():
 
 
 def load_setup_data():
-	folder = frappe.get_app_path("eye_crm", "setup_data")
+	folder = frappe.get_app_path("eye_crm_v1", "setup_data")
 	added = 0
 	for fname in ORDER:
 		path = os.path.join(folder, fname)

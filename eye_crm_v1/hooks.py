@@ -1,7 +1,7 @@
-app_name = "eye_crm"
-app_title = "Eye CRM"
+app_name = "eye_crm_v1"
+app_title = "Eye CRM v1"
 app_publisher = "Kamal Adel"
-app_description = "Eye CRM"
+app_description = "Eye CRM v1 (frozen, kept as a reference)"
 app_email = "Kamal.adel@outlook.com"
 app_license = "mit"
 
@@ -13,17 +13,17 @@ app_license = "mit"
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
 # 	{
-# 		"name": "eye_crm",
-# 		"logo": "/assets/eye_crm/logo.png",
+# 		"name": "eye_crm_v1",
+# 		"logo": "/assets/eye_crm_v1/logo.png",
 # 		"title": "Eye CRM",
 # 		"route": "/eye_crm",
-# 		"has_permission": "eye_crm.api.permission.has_app_permission",
+# 		"has_permission": "eye_crm_v1.api.permission.has_app_permission",
 # 	}
 # ]
 
 # The dock, the rail down the left of the desk, is a document rather than a hook. Author it in
 # Manage Dock on a developer-mode site and press Export to App, and it is written to
-# `eye_crm/dock/eye_crm/eye_crm.json` for git to carry. An app that ships none has no
+# `eye_crm_v1/dock/eye_crm_v1/eye_crm_v1.json` for git to carry. An app that ships none has no
 # rail: its sidebar gets a switcher in the header instead.
 #
 # A companion app, one that extends a host app rather than standing on its own, says so with
@@ -34,12 +34,12 @@ app_license = "mit"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/eye_crm/css/eye_crm.css"
-# app_include_js = "/assets/eye_crm/js/eye_crm.js"
+# app_include_css = "/assets/eye_crm_v1/css/eye_crm.css"
+# app_include_js = "/assets/eye_crm_v1/js/eye_crm.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/eye_crm/css/eye_crm.css"
-# web_include_js = "/assets/eye_crm/js/eye_crm.js"
+# web_include_css = "/assets/eye_crm_v1/css/eye_crm.css"
+# web_include_js = "/assets/eye_crm_v1/js/eye_crm.js"
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "eye_crm/public/scss/website"
@@ -88,58 +88,58 @@ app_license = "mit"
 
 # add methods and filters to jinja environment
 # jinja = {
-# 	"methods": "eye_crm.utils.jinja_methods",
-# 	"filters": "eye_crm.utils.jinja_filters"
+# 	"methods": "eye_crm_v1.utils.jinja_methods",
+# 	"filters": "eye_crm_v1.utils.jinja_filters"
 # }
 
 # Installation
 # ------------
 
-# before_install = "eye_crm.install.before_install"
-# after_install = "eye_crm.install.after_install"
+# before_install = "eye_crm_v1.install.before_install"
+# after_install = "eye_crm_v1.install.after_install"
 
 # setup data, once (see install.py)
-after_install = "eye_crm.install.after_install"
+after_install = "eye_crm_v1.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "eye_crm.uninstall.before_uninstall"
-# after_uninstall = "eye_crm.uninstall.after_uninstall"
+# before_uninstall = "eye_crm_v1.uninstall.before_uninstall"
+# after_uninstall = "eye_crm_v1.uninstall.after_uninstall"
 
 # Integration Setup
 # ------------------
 # To set up dependencies/integrations with other apps
 # Name of the app being installed is passed as an argument
 
-# before_app_install = "eye_crm.utils.before_app_install"
-# after_app_install = "eye_crm.utils.after_app_install"
+# before_app_install = "eye_crm_v1.utils.before_app_install"
+# after_app_install = "eye_crm_v1.utils.after_app_install"
 
 # Integration Cleanup
 # -------------------
 # To clean up dependencies/integrations with other apps
 # Name of the app being uninstalled is passed as an argument
 
-# before_app_uninstall = "eye_crm.utils.before_app_uninstall"
-# after_app_uninstall = "eye_crm.utils.after_app_uninstall"
+# before_app_uninstall = "eye_crm_v1.utils.before_app_uninstall"
+# after_app_uninstall = "eye_crm_v1.utils.after_app_uninstall"
 
 # Build
 # ------------------
 # To hook into the build process
 
-# after_build = "eye_crm.build.after_build"
+# after_build = "eye_crm_v1.build.after_build"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "eye_crm.notifications.get_notification_config"
+# notification_config = "eye_crm_v1.notifications.get_notification_config"
 
 # Awesome Bar
 # -----------
 # Extra search results: list of dicts with label, description, route, index.
 # route: ["List", "ToDo"], "/desk/docs/some/page", or "https://example.com"
-# awesomebar_search = ["eye_crm.search.awesomebar_results"]
+# awesomebar_search = ["eye_crm_v1.search.awesomebar_results"]
 
 # Permissions
 # -----------
@@ -170,47 +170,47 @@ after_install = "eye_crm.install.after_install"
 
 # scheduler_events = {
 # 	"all": [
-# 		"eye_crm.tasks.all"
+# 		"eye_crm_v1.tasks.all"
 # 	],
 # 	"daily": [
-# 		"eye_crm.tasks.daily"
+# 		"eye_crm_v1.tasks.daily"
 # 	],
 # 	"hourly": [
-# 		"eye_crm.tasks.hourly"
+# 		"eye_crm_v1.tasks.hourly"
 # 	],
 # 	"weekly": [
-# 		"eye_crm.tasks.weekly"
+# 		"eye_crm_v1.tasks.weekly"
 # 	],
 # 	"monthly": [
-# 		"eye_crm.tasks.monthly"
+# 		"eye_crm_v1.tasks.monthly"
 # 	],
 # }
 
 # Testing
 # -------
 
-# before_tests = "eye_crm.install.before_tests"
+# before_tests = "eye_crm_v1.install.before_tests"
 
 # Extend DocType Class
 # ------------------------------
 #
 # Specify custom mixins to extend the standard doctype controller.
 # extend_doctype_class = {
-# 	"Task": "eye_crm.custom.task.CustomTaskMixin"
+# 	"Task": "eye_crm_v1.custom.task.CustomTaskMixin"
 # }
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "eye_crm.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "eye_crm_v1.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-# 	"Task": "eye_crm.task.get_dashboard_data"
+# 	"Task": "eye_crm_v1.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -224,13 +224,13 @@ after_install = "eye_crm.install.after_install"
 
 # Request Events
 # ----------------
-# before_request = ["eye_crm.utils.before_request"]
-# after_request = ["eye_crm.utils.after_request"]
+# before_request = ["eye_crm_v1.utils.before_request"]
+# after_request = ["eye_crm_v1.utils.after_request"]
 
 # Job Events
 # ----------
-# before_job = ["eye_crm.utils.before_job"]
-# after_job = ["eye_crm.utils.after_job"]
+# before_job = ["eye_crm_v1.utils.before_job"]
+# after_job = ["eye_crm_v1.utils.after_job"]
 
 # User Data Protection
 # --------------------
@@ -260,7 +260,7 @@ after_install = "eye_crm.install.after_install"
 # --------------------------------
 
 # auth_hooks = [
-# 	"eye_crm.auth.validate"
+# 	"eye_crm_v1.auth.validate"
 # ]
 
 # Automatically update python controller files with type annotations for this app.
@@ -278,16 +278,16 @@ after_install = "eye_crm.install.after_install"
 # Eye depends on ERPNext only. Its rules live in its own Server and Client Scripts; Nexlify
 # Board, when a site has it, only shows them better (wired by data, not code).
 # Its Custom Fields, scripts, reports and lists are in setup_data/, put on a site once when the
-# app is installed (eye_crm.install). They are not fixtures: a migrate never brings them back, so
+# app is installed (eye_crm_v1.install). They are not fixtures: a migrate never brings them back, so
 # what is changed or deleted from the desk stays that way.
 
 
 
 add_to_apps_screen = [
     {
-        "name": "eye_crm",
+        "name": "eye_crm_v1",
         "title": "Eye CRM",
-        "has_permission": "eye_crm.setup_crm.has_app_permission",
+        "has_permission": "eye_crm_v1.setup_crm.has_app_permission",
     }
 ]
 

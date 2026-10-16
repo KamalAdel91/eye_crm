@@ -13,7 +13,7 @@ NAME = "Eye Deal Bar"
 def execute():
 	if frappe.db.exists("Client Script", NAME):
 		return
-	path = frappe.get_app_path("eye_crm", "setup_data", "client_script.json")
+	path = frappe.get_app_path("eye_crm_v1", "setup_data", "client_script.json")
 	with open(path) as f:
 		row = next((d for d in json.load(f) if d["name"] == NAME), None)
 	if not row:

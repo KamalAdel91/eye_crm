@@ -8,7 +8,7 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
-        files: "eye_crm.*"
+        files: "eye_crm_v1.*"
         exclude: ".*json$|.*txt$|.*csv|.*md|.*svg"
       - id: check-merge-conflict
       - id: check-ast
@@ -38,11 +38,11 @@ repos:
         # Ignore any files that might contain jinja / bundles
         exclude: |
             (?x)^(
-                eye_crm/public/dist/.*|
+                eye_crm_v1/public/dist/.*|
                 .*node_modules.*|
                 .*boilerplate.*|
-                eye_crm/templates/includes/.*|
-                eye_crm/public/js/lib/.*
+                eye_crm_v1/templates/includes/.*|
+                eye_crm_v1/public/js/lib/.*
             )$
 
 
@@ -55,12 +55,12 @@ repos:
         # Ignore any files that might contain jinja / bundles
         exclude: |
             (?x)^(
-                eye_crm/public/dist/.*|
+                eye_crm_v1/public/dist/.*|
                 cypress/.*|
                 .*node_modules.*|
                 .*boilerplate.*|
-                eye_crm/templates/includes/.*|
-                eye_crm/public/js/lib/.*
+                eye_crm_v1/templates/includes/.*|
+                eye_crm_v1/public/js/lib/.*
             )$
 
 ci:
