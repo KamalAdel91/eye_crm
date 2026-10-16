@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_bulk_edit": 1,
- "allow_rename": 0,
  "autoname": "field:title",
  "creation": "2026-10-16 10:49:26.542640",
  "description": "A condition a deal must meet to enter a stage. Turn it on for a stage from the Sales Stage.",
@@ -45,8 +44,9 @@
   }
  ],
  "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-16 10:49:34.926705",
+ "modified": "2026-10-16 14:17:56.282474",
  "modified_by": "Administrator",
  "module": "Eye Deals",
  "name": "Eye Check",
@@ -56,26 +56,15 @@
   {
    "create": 1,
    "delete": 1,
-   "email": 1,
    "export": 1,
-   "print": 1,
    "read": 1,
    "report": 1,
    "role": "System Manager",
-   "share": 1,
    "write": 1
   },
   {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
    "read": 1,
-   "report": 1,
-   "role": "Desk User",
-   "share": 1,
-   "write": 1
+   "role": "Desk User"
   }
  ],
  "quick_entry": 1,

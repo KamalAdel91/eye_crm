@@ -17,6 +17,11 @@ class DealPL(Document):
 		if not self.flags.get("eye_system"):
 			check_deal_unlocked(frappe.get_doc("Opportunity", self.opportunity), self)
 		deals.price_pl(self)
+		if self.previous_revision and self.docstatus == 0:
+			# a change after the project opened keeps what billing already asked for
+			from eye_crm.eye.billing import check_pl
+
+			check_pl(self)
 
 	def before_submit(self):
 		if not self.flags.get("eye_system"):

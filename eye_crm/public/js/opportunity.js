@@ -1,6 +1,7 @@
-// The deal form (Opportunity): its Cost Sheet, P&L and Quotations tabs, their Edit dialogs,
-// and the actions that move it: Open Project, Approve / Reject, and changes after opening.
-// Every number shown comes from a stored field; every label from that field's label.
+// The deal form (Opportunity): its Cost Sheet, P&L, Quotations and Billing tabs, their dialogs,
+// and the actions that move it: Open Project, Approve / Reject, changes after opening, and
+// Request Invoice. Every number shown comes from a stored field; every label from that field's
+// label.
 
 frappe.provide("eye_crm.deal");
 
@@ -50,7 +51,7 @@ Object.assign(eye_crm.deal, {
 
 	async load(frm) {
 		await Promise.all(
-			["Cost Sheet", "Deal PL", "Quotation"].map((dt) => frappe.model.with_doctype(dt))
+			["Cost Sheet", "Deal PL", "Quotation", "Billing Request"].map((dt) => frappe.model.with_doctype(dt))
 		);
 		const r = await frappe.call(API + "deal_view", { deal: frm.doc.name });
 		frm.eye_view = r.message;
@@ -63,6 +64,7 @@ Object.assign(eye_crm.deal, {
 		this.render_costs(frm, view);
 		this.render_pl(frm, view);
 		this.render_quotations(frm, view);
+		this.render_billing(frm, view);
 		this.add_actions(frm, view);
 	},
 
@@ -577,6 +579,42 @@ Object.assign(eye_crm.deal, {
 		dialog.show();
 	},
 
+	// ---------------------------------------------------------------- Billing tab
+
+	render_billing(frm, view) {
+		const billing = view.billing;
+		if (!billing) return;
+		const can = this.can_request(frm, view);
+		const toolbar = `<div class="eye-toolbar">${can ? this.button(__("Request Invoice"), "request", true) : ""}</div>`;
+		const B = (f) => this.label("Billing Request", f);
+		const fields = ["expected_date", "total", "invoice_number", "collected_amount"];
+		const body = billing.requests
+			.map(
+				(r) => `<tr>
+				<td>${this.link("Billing Request", r.name)}</td>
+				<td>${eye_crm.billing.stage_pill(r.billing_stage, billing.colors[r.billing_stage])}</td>
+				${fields
+					.map((f) => `<td class="${this.cell_class("Billing Request", f)}">${this.fmt("Billing Request", f, r[f], r)}</td>`)
+					.join("")}</tr>`
+			)
+			.join("");
+		const head = [__("Billing Request"), B("billing_stage"), ...fields.map((f) => B(f))]
+			.map((h, i) => `<th class="${i > 1 && this.is_number("Billing Request", fields[i - 2]) ? "eye-num" : ""}">${h}</th>`)
+			.join("");
+		const table = billing.requests.length
+			? `<div class="eye-table-wrap"><table class="eye-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`
+			: `<div class="eye-empty">${__("No billing request yet.")}</div>`;
+		this.html(frm, "eye_billing_html", toolbar + table, { request: () => this.request_invoice(frm) });
+	},
+
+	can_request(frm, view) {
+		return view.billing && view.billing.can_request && flt(frm.doc.eye_left_to_request) > 0;
+	},
+
+	request_invoice(frm) {
+		eye_crm.billing.request_invoice(frm.doc.name, () => frm.reload_doc());
+	},
+
 	// ---------------------------------------------------------------- actions
 
 	add_actions(frm, view) {
@@ -584,6 +622,9 @@ Object.assign(eye_crm.deal, {
 		const group = __("Deal");
 		if (this.can_quote(frm, view)) {
 			frm.add_custom_button(__("Quotation"), () => this.update_quotation(frm), __("Create"));
+		}
+		if (this.can_request(frm, view)) {
+			frm.add_custom_button(__("Request Invoice"), () => this.request_invoice(frm), group);
 		}
 		if (view.can.move && ["Pipeline", "Quotation", "In Hand"].includes(type) && frm.doc.status !== "Lost") {
 			frm.add_custom_button(__("Open Project"), () => this.open_project(frm), group);
@@ -599,13 +640,9 @@ Object.assign(eye_crm.deal, {
 	},
 
 	async open_project(frm) {
-		const opening = await frappe.db.get_value("Sales Stage", { eye_stage_type: "Opening" }, "name");
-		const stage = opening.message && opening.message.name;
-		if (!stage) return frappe.msgprint(__("There is no Sales Stage of type Opening."));
-		const ok = await this.ask_for_stage(frm, stage);
-		if (!ok) return;
-		await frappe.call({ method: API + "open_project", args: { deal: frm.doc.name }, freeze: true });
-		frm.reload_doc();
+		// what is typed in the form goes first: the opening checks the saved deal
+		if (frm.is_dirty()) await frm.save();
+		eye_crm.open_project(frm.doc.name, () => frm.reload_doc());
 	},
 
 	decide(frm, action) {
@@ -661,42 +698,18 @@ Object.assign(eye_crm.deal, {
 		frm.save();
 	},
 
-	// asks for what the deal needs before it enters `stage`: missing fields in a dialog, failed
-	// checks as a message. Resolves true when the deal is ready.
+	// asks for what the deal needs before it enters `stage` (eye_crm.ask_for_stage) and puts the
+	// answers in the form. Resolves true when the deal is ready.
 	async ask_for_stage(frm, stage) {
-		const r = await frappe.call(API + "what_is_missing", { doc: frm.doc, stage });
-		const { missing_fields, failed_checks } = r.message;
-		if (failed_checks.length) {
-			frappe.msgprint({
-				title: __("The deal can't enter {0} yet", [stage]),
-				message: `<ul>${failed_checks.map((c) => `<li>${c.message}</li>`).join("")}</ul>`,
-				indicator: "orange",
-			});
-			return false;
-		}
-		if (!missing_fields.length) return true;
-		return new Promise((resolve) => {
-			const fields = missing_fields.map((f) => {
-				const df = Object.assign({}, frappe.meta.get_docfield("Opportunity", f.fieldname, frm.doc.name));
-				delete df.depends_on;
-				delete df.mandatory_depends_on;
-				return Object.assign(df, { reqd: 1, read_only: 0, hidden: 0, default: frm.doc[f.fieldname] });
-			});
-			let done = false;
-			const dialog = new frappe.ui.Dialog({
-				title: __("Needed for {0}", [stage]),
-				fields,
-				primary_action_label: __("Continue"),
-				primary_action: async (values) => {
-					for (const [k, v] of Object.entries(values)) await frm.set_value(k, v);
-					done = true;
-					dialog.hide();
-					// an answer can make another field needed (a received PO needs its number)
-					resolve(await this.ask_for_stage(frm, stage));
-				},
-			});
-			dialog.onhide = () => !done && resolve(false);
-			dialog.show();
+		const values = await eye_crm.ask_for_stage({
+			doctype: "Opportunity",
+			doc: frm.doc,
+			stage,
+			method: API + "what_is_missing",
+			title: __("The deal can't enter {0} yet", [stage]),
 		});
+		if (values === null) return false;
+		for (const [k, v] of Object.entries(values)) await frm.set_value(k, v);
+		return true;
 	},
 });

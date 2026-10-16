@@ -10,7 +10,7 @@ What a deal needs before it enters a stage comes from two places:
 
 import frappe
 from frappe import _
-from frappe.utils import cint
+from frappe.utils import cint, flt
 
 from eye_crm.eye import conditions
 
@@ -79,26 +79,27 @@ def apply_stage_fields(deal):
 	return stage
 
 
+def blocked_move(deal, old, new, user=None):
+	"""Why the user can't move the deal from stage `old` into `new` (None: they can)."""
+	if deal.flags.get("eye_system_move"):
+		return None
+	if old and old.system_only and (not new or new.name != old.name):
+		return _("The deal is in {0}: only its actions move it from there.").format(frappe.bold(old.name))
+	if new and new.system_only:
+		return _("Deals enter {0} by an action, not by hand.").format(frappe.bold(new.name))
+	if new and new.roles and not set(new.roles) & set(frappe.get_roles(user or frappe.session.user)):
+		return _("Only {0} can move deals into {1}.").format(
+			", ".join(frappe.bold(_(r)) for r in new.roles), frappe.bold(new.name)
+		)
+	return None
+
+
 def check_move(deal, old_stage_name, user=None):
 	"""Raise StageError when the deal can't move from `old_stage_name` into its stage."""
-	user = user or frappe.session.user
 	new = get_stage(deal.sales_stage)
-	old = get_stage(old_stage_name)
-	system = deal.flags.get("eye_system_move")
-
-	if not system:
-		if old and old.system_only:
-			raise StageError(
-				_("The deal is in {0}: only its actions move it from there.").format(frappe.bold(old.name))
-			)
-		if new and new.system_only:
-			raise StageError(_("Deals enter {0} by an action, not by hand.").format(frappe.bold(new.name)))
-		if new and new.roles and not set(new.roles) & set(frappe.get_roles(user)):
-			raise StageError(
-				_("Only {0} can move deals into {1}.").format(
-					", ".join(frappe.bold(_(r)) for r in new.roles), frappe.bold(new.name)
-				)
-			)
+	blocked = blocked_move(deal, get_stage(old_stage_name), new, user)
+	if blocked:
+		raise StageError(blocked)
 	if not new:
 		return
 
@@ -124,15 +125,19 @@ def what_is_missing(deal, stage):
 	before = (deal.eye_stage_type, deal.eye_stage_order, deal.sales_stage)
 	deal.eye_stage_type, deal.eye_stage_order, deal.sales_stage = stage.type, stage.order, stage.name
 	try:
-		missing = missing_fields(deal)
+		# Nexlify Board tries the save before its popup asks for the fields
+		missing = [] if deal.flags.get("nx_skip_required") else missing_fields(deal)
 	finally:
 		deal.eye_stage_type, deal.eye_stage_order, deal.sales_stage = before
 	return {"missing_fields": missing, "failed_checks": run_checks(deal, stage.checks)}
 
 
-def missing_fields(doc, prefix=None):
+NUMBERS = ("Currency", "Float", "Int", "Percent")
+
+
+def missing_fields(doc, prefix=None, zero_is_empty=False):
 	"""Fields whose Mandatory Depends On holds and that are empty (only those whose name starts with
-	`prefix`, if given)."""
+	`prefix`, if given). With `zero_is_empty`, a required number must be more than 0."""
 	meta = frappe.get_meta(doc.doctype)
 	out = []
 	for df in meta.fields:
@@ -145,7 +150,9 @@ def missing_fields(doc, prefix=None):
 		except conditions.ConditionError:
 			# outside what the server reads: the form still enforces it
 			continue
-		if required and is_empty(doc.get(df.fieldname), df):
+		value = doc.get(df.fieldname)
+		empty = is_empty(value, df) or (zero_is_empty and df.fieldtype in NUMBERS and not flt(value))
+		if required and empty:
 			out.append({"fieldname": df.fieldname, "label": df.label, "fieldtype": df.fieldtype})
 	return out
 

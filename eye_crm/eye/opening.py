@@ -4,7 +4,8 @@ A deal entering an Opening stage (by the Open Project button, or dragged on the 
 there. Its checks run first; then, if it needs approval (Eye CRM Settings), it moves to the
 Approval stage and waits, otherwise the project opens straight away: the Cost Sheet, P&L and
 quotation are submitted, the Sales Order is made and the deal moves to the Opened stage.
-Approve finishes the opening; Reject sends the deal back, with its reason.
+Approve finishes the opening; Reject sends the deal back, with its reason. The deal keeps the
+last approval's status (Approval), which its notifications follow.
 """
 
 import frappe
@@ -48,9 +49,11 @@ def resolve_opening(deal):
 	deal.flags.eye_system_move = True
 	if reasons:
 		deal.sales_stage = stages.stage_of_type(stages.APPROVAL)
+		deal.eye_approval_status = PENDING
 		deal.flags.eye_after_save = ("request_approval", reasons)
 	else:
 		deal.sales_stage = stages.stage_of_type(stages.OPENED)
+		deal.eye_approval_status = NOT_REQUIRED
 		deal.flags.eye_after_save = ("open", None)
 	stages.apply_stage_fields(deal)
 
@@ -95,6 +98,7 @@ def approve(deal_name):
 	pl.approved_by = frappe.session.user
 	pl.approved_on = now_datetime()
 	_save(pl)
+	deal.eye_approval_status = APPROVED
 	_system_move(deal, stages.stage_of_type(stages.OPENED), ("open", None))
 	return deal
 
@@ -109,6 +113,7 @@ def reject(deal_name, reason):
 	pl.approved_by = frappe.session.user
 	pl.approved_on = now_datetime()
 	_save(pl)
+	deal.eye_approval_status = REJECTED
 	back = deals.settings().reject_stage or stages.stage_of_type(stages.IN_HAND)
 	_system_move(deal, back, None)
 	return deal

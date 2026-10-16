@@ -1,0 +1,342 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "autoname": "BR-.YYYY.-.#####",
+ "creation": "2026-10-16 14:16:51.616346",
+ "description": "Sales asks Finance to invoice part of an open project; Finance issues the invoice and records the payment. Its stage (Billing Stage) says where it is.",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "opportunity",
+  "title",
+  "customer",
+  "customer_name",
+  "salesperson",
+  "column_break_16",
+  "billing_stage",
+  "stage_type",
+  "expected_date",
+  "sent_on",
+  "column_break_17",
+  "sales_order",
+  "company",
+  "currency",
+  "services_section",
+  "items",
+  "totals_section",
+  "total",
+  "column_break_18",
+  "notes",
+  "invoice_section",
+  "invoice_number",
+  "invoice_date",
+  "invoice_id",
+  "column_break_19",
+  "collected_amount",
+  "collected_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "opportunity",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Deal",
+   "options": "Opportunity",
+   "reqd": 1,
+   "search_index": 1,
+   "set_only_once": 1
+  },
+  {
+   "fetch_from": "opportunity.title",
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Deal Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "opportunity.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "salesperson",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Salesperson",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "billing_stage",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Stage",
+   "options": "Billing Stage",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "billing_stage.stage_type",
+   "fieldname": "stage_type",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Stage Type",
+   "options": "Eye Billing Stage Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expected_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expected Invoice Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sent_on",
+   "fieldtype": "Datetime",
+   "label": "Sent to Finance On",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "services_section",
+   "fieldtype": "Section Break",
+   "label": "Services"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Services",
+   "options": "Billing Request Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "bold": 1,
+   "description": "Before taxes.",
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount to Invoice",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes for Finance"
+  },
+  {
+   "depends_on": "eval:doc.stage_type && doc.stage_type != \"Draft\"",
+   "fieldname": "invoice_section",
+   "fieldtype": "Section Break",
+   "label": "Invoice"
+  },
+  {
+   "fieldname": "invoice_number",
+   "fieldtype": "Data",
+   "label": "Invoice Number",
+   "mandatory_depends_on": "eval:[\"Invoiced\", \"Collected\"].includes(doc.stage_type)",
+   "no_copy": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "invoice_date",
+   "fieldtype": "Date",
+   "label": "Invoice Date",
+   "mandatory_depends_on": "eval:[\"Invoiced\", \"Collected\"].includes(doc.stage_type)",
+   "no_copy": 1,
+   "permlevel": 1
+  },
+  {
+   "description": "The invoice's ID in the accounting system: what the connection to it uses.",
+   "fieldname": "invoice_id",
+   "fieldtype": "Data",
+   "label": "Invoice ID (Accounting System)",
+   "no_copy": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "column_break_19",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:[\"Invoiced\", \"Collected\"].includes(doc.stage_type)",
+   "description": "Of this request's amount, before taxes: the same basis as the deal's numbers.",
+   "fieldname": "collected_amount",
+   "fieldtype": "Currency",
+   "label": "Collected (Before Taxes)",
+   "mandatory_depends_on": "eval:doc.stage_type == \"Collected\"",
+   "no_copy": 1,
+   "options": "currency",
+   "permlevel": 1
+  },
+  {
+   "depends_on": "eval:[\"Invoiced\", \"Collected\"].includes(doc.stage_type)",
+   "fieldname": "collected_on",
+   "fieldtype": "Date",
+   "label": "Collected On",
+   "mandatory_depends_on": "eval:doc.stage_type == \"Collected\"",
+   "no_copy": 1,
+   "permlevel": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-16 14:52:14.822025",
+ "modified_by": "Administrator",
+ "module": "Eye Billing",
+ "name": "Billing Request",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Sales Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Sales User"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Accounts Manager",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Accounts User",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Management"
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Management"
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "search_fields": "opportunity,customer_name,invoice_number",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1
+}

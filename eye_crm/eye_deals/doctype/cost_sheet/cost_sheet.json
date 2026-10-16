@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_bulk_edit": 1,
- "allow_rename": 0,
  "autoname": "CS-.YYYY.-.#####",
  "creation": "2026-10-16 10:49:35.475587",
  "description": "What a deal costs: one line per cost item, under the service it belongs to.",
@@ -167,9 +166,10 @@
   }
  ],
  "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-10-16 10:49:35.475587",
+ "modified": "2026-10-16 14:17:56.979810",
  "modified_by": "Administrator",
  "module": "Eye Deals",
  "name": "Cost Sheet",
@@ -194,62 +194,38 @@
   {
    "create": 1,
    "delete": 1,
-   "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "Sales Manager",
-   "share": 1,
    "write": 1
   },
   {
    "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "Sales User",
-   "share": 1,
    "write": 1
   },
   {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Accounts Manager",
-   "share": 1,
-   "write": 1
+   "role": "Accounts Manager"
   },
   {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Accounts User",
-   "share": 1,
-   "write": 1
+   "role": "Accounts User"
   },
   {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Management",
-   "share": 1,
-   "write": 1
+   "role": "Management"
   }
  ],
  "row_format": "Dynamic",

@@ -1,10 +1,11 @@
 """What the deal form calls. Every action checks the Frappe permission it stands for:
 
-costs                Write on Cost Sheet
-prices               Write on Deal PL
+costs                Write on Cost Sheet, and on the deal
+prices               Write on Deal PL, and on the deal
 approve / reject     Submit on Deal PL
 quotation            Create on Quotation
 moving the deal      Write on the deal, and the stage's roles
+billing              Create on Billing Request, and Write on the deal (eye_crm.eye.billing)
 """
 
 import json
@@ -13,7 +14,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt
 
-from eye_crm.eye import changes, opening, stages
+from eye_crm.eye import billing, changes, opening, stages
 from eye_crm.eye import deal as deals
 from eye_crm.eye.quotation import FULL, make_quotation
 
@@ -28,6 +29,11 @@ def _json(value):
 	return json.loads(value) if isinstance(value, str) else value
 
 
+def _list(doctype, **kwargs):
+	"""frappe.get_list, or nothing for a user who can't read the DocType (the rest still shows)."""
+	return frappe.get_list(doctype, **kwargs) if frappe.has_permission(doctype, "read") else []
+
+
 @frappe.whitelist()
 def deal_view(deal):
 	"""Everything the deal's Cost Sheet, P&L and Quotations tabs show, with what the user may do."""
@@ -35,7 +41,7 @@ def deal_view(deal):
 	sheet = deals.get_cost_sheet(deal)
 	pl = deals.get_pl(deal)
 	approved_name = deals.approved_pl_name(deal.name)
-	quotations = frappe.get_list(
+	quotations = _list(
 		"Quotation",
 		filters={"opportunity": deal.name},
 		fields=[
@@ -55,11 +61,12 @@ def deal_view(deal):
 		order_by="creation desc",
 	)
 	stage_type = deal.eye_stage_type
+	edits_deal = bool(frappe.has_permission("Opportunity", "write", deal))
 	return {
 		"cost_sheet": sheet.as_dict() if sheet else None,
 		"pl": pl.as_dict() if pl else None,
 		"approved_pl": approved_name,
-		"revisions": frappe.get_list(
+		"revisions": _list(
 			"Deal PL",
 			filters={"opportunity": deal.name},
 			fields=[
@@ -77,13 +84,17 @@ def deal_view(deal):
 		"stage_type": stage_type,
 		"below_minimum_message": deals.settings().below_minimum_message,
 		"locked": stage_type in stages.LOCKED_TYPES,
+		"billing": billing.view(deal) if deal.get("eye_sales_order") else None,
 		"can": {
-			"costs": bool(sheet and frappe.has_permission("Cost Sheet", "write", sheet))
-			or (not sheet and frappe.has_permission("Cost Sheet", "create")),
-			"prices": bool(pl and frappe.has_permission("Deal PL", "write", pl)),
+			"costs": edits_deal
+			and (
+				bool(sheet and frappe.has_permission("Cost Sheet", "write", sheet))
+				or (not sheet and bool(frappe.has_permission("Cost Sheet", "create")))
+			),
+			"prices": edits_deal and bool(pl and frappe.has_permission("Deal PL", "write", pl)),
 			"decide": bool(pl and frappe.has_permission("Deal PL", "submit", pl)),
 			"quote": bool(frappe.has_permission("Quotation", "create")),
-			"move": bool(frappe.has_permission("Opportunity", "write", deal)),
+			"move": edits_deal,
 		},
 	}
 
@@ -92,18 +103,24 @@ def deal_view(deal):
 def what_is_missing(doc, stage):
 	"""What the deal (as it is in the form, unsaved) still needs to enter `stage`."""
 	doc = frappe.get_doc(_json(doc))
+	old = None
 	if not doc.is_new():
-		frappe.get_doc("Opportunity", doc.name).check_permission("read")
+		saved = frappe.get_doc("Opportunity", doc.name)
+		saved.check_permission("read")
+		old = stages.get_stage(saved.sales_stage)
 	info = stages.get_stage(stage)
 	if not info:
 		return {"missing_fields": [], "failed_checks": []}
+	blocked = stages.blocked_move(doc, old, info)
+	if blocked:
+		return {"missing_fields": [], "failed_checks": [{"check": "move", "message": blocked}]}
 	return stages.what_is_missing(doc, info)
 
 
 @frappe.whitelist()
 def save_costs(deal, lines, currency=None, deal_exchange_rate=None):
 	"""Replace the lines of the deal's working Cost Sheet (a new revision after the project opened)."""
-	deal = _deal(deal)
+	deal = _deal(deal, "write")
 	if deal.eye_stage_type in stages.LOCKED_TYPES:
 		frappe.throw(_("The deal is waiting for approval: its costs can't change now."))
 	sheet = _working(deal)[0] or deals.get_cost_sheet(deal, create=True)
@@ -131,11 +148,10 @@ def save_costs(deal, lines, currency=None, deal_exchange_rate=None):
 @frappe.whitelist()
 def save_prices(deal, lines, currency=None, conversion_rate=None):
 	"""Margins, typed prices and No Cost, per service; and the deal's currency."""
-	deal = _deal(deal)
+	deal = _deal(deal, "write")
 	if deal.eye_stage_type in stages.LOCKED_TYPES:
 		frappe.throw(_("The deal is waiting for approval: its prices can't change now."))
 	if currency and (currency != deal.currency or flt(conversion_rate) != flt(deal.conversion_rate)):
-		deal.check_permission("write")
 		deal.currency = currency
 		deal.conversion_rate = flt(conversion_rate) or deal.conversion_rate
 		deal.save()
@@ -179,10 +195,20 @@ def update_quotation(deal, quotation_type=FULL):
 
 
 @frappe.whitelist()
-def open_project(deal):
-	"""The Open Project button: the deal enters the Opening stage, which decides where it goes."""
+def open_project(deal, values=None):
+	"""The Open Project button: the deal enters the Opening stage, which decides where it goes.
+	`values`: the fields the stage asked for, typed in its dialog (from a board)."""
 	deal = _deal(deal, "write")
-	deal.sales_stage = stages.stage_of_type(stages.OPENING)
+	stage = stages.stage_of_type(stages.OPENING)
+	typed, info = _json(values) or {}, stages.get_stage(stage)
+	# only what the stage asks for; an answer can ask for another field (a PO needs its number)
+	for _i in range(5):
+		asked = {f["fieldname"] for f in stages.what_is_missing(deal, info)["missing_fields"]}
+		answers = {k: v for k, v in typed.items() if k in asked}
+		if not answers:
+			break
+		deal.update(answers)
+	deal.sales_stage = stage
 	deal.save()
 	return deal.sales_stage
 

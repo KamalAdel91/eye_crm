@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_bulk_edit": 1,
- "allow_rename": 1,
  "autoname": "field:title",
  "creation": "2026-10-16 10:49:26.317838",
  "description": "Full, or only what changed since the last quotation.",
@@ -22,8 +21,9 @@
   }
  ],
  "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-16 10:49:34.731166",
+ "modified": "2026-10-16 14:18:46.931580",
  "modified_by": "Administrator",
  "module": "Eye Deals",
  "name": "Eye Quotation Type",
@@ -44,27 +44,14 @@
   },
   {
    "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
    "read": 1,
    "report": 1,
    "role": "Sales Manager",
-   "share": 1,
    "write": 1
   },
   {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
    "read": 1,
-   "report": 1,
-   "role": "Desk User",
-   "share": 1,
-   "write": 1
+   "role": "Desk User"
   }
  ],
  "quick_entry": 1,

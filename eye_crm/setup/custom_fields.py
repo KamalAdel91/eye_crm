@@ -1,7 +1,7 @@
 """The fields Eye CRM adds to ERPNext's doctypes, and how it lays out the deal.
 
-Created once, when the app is installed. Every field and property setter carries the module
-"Eye Deals", so uninstalling the app takes them away with it.
+Created once, when the app is installed (a field added later comes with its patch). Every field
+and property setter carries one of the app's modules, so uninstalling the app takes them away.
 """
 
 import json
@@ -10,6 +10,8 @@ import frappe
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
 MODULE = "Eye Deals"
+BILLING_MODULE = "Eye Billing"
+BREAKS = ("Tab Break", "Section Break", "Column Break", "HTML")
 
 # what a deal needs before it can enter a stage, as Customize Form keeps it (Mandatory Depends On);
 # by the stage's order, so renaming a stage changes nothing
@@ -23,6 +25,13 @@ def _f(fieldname, fieldtype, label=None, **kw):
 		d["label"] = label
 	d.update(kw)
 	return d
+
+
+def _b(fieldname, fieldtype, label=None, **kw):
+	"""A billing number on the deal: read only, kept by the app from the deal's billing requests."""
+	if fieldtype not in BREAKS:
+		kw = {"read_only": 1, "no_copy": 1, **kw}
+	return _f(fieldname, fieldtype, label, module=BILLING_MODULE, **kw)
 
 
 def custom_fields():
@@ -95,6 +104,18 @@ def custom_fields():
 				no_copy=1,
 				depends_on="eval:doc.eye_change_pending",
 				description="A financial change after the project opened; it applies once it is approved.",
+			),
+			_f(
+				"eye_approval_status",
+				"Link",
+				"Approval",
+				options="Eye Approval Status",
+				insert_after="eye_change_pending",
+				read_only=1,
+				no_copy=1,
+				in_standard_filter=1,
+				depends_on="eval:doc.eye_approval_status",
+				description="The last approval asked for: to open the project, or for a change after it opened.",
 			),
 			_f(
 				"eye_total_cost",
@@ -218,6 +239,65 @@ def custom_fields():
 				no_copy=1,
 			),
 			_f("eye_quotations_html", "HTML", "Quotations View", insert_after="eye_quotation"),
+			_b(
+				"eye_billing_tab",
+				"Tab Break",
+				"Billing",
+				insert_after="eye_quotations_html",
+				depends_on="eval:doc.eye_sales_order",
+			),
+			_b(
+				"eye_requested_amount",
+				"Currency",
+				"Requested",
+				options="currency",
+				insert_after="eye_billing_tab",
+				description="In the deal's billing requests, drafts included.",
+			),
+			_b(
+				"eye_left_to_request",
+				"Currency",
+				"Left to Request",
+				options="currency",
+				insert_after="eye_requested_amount",
+			),
+			_b("eye_billing_column", "Column Break", insert_after="eye_left_to_request"),
+			_b(
+				"eye_invoiced_amount",
+				"Currency",
+				"Invoiced",
+				options="currency",
+				insert_after="eye_billing_column",
+			),
+			_b(
+				"eye_invoiced_percent",
+				"Percent",
+				"% Invoiced",
+				precision="2",
+				insert_after="eye_invoiced_amount",
+			),
+			_b("eye_billing_column_2", "Column Break", insert_after="eye_invoiced_percent"),
+			_b(
+				"eye_collected_amount",
+				"Currency",
+				"Collected",
+				options="currency",
+				insert_after="eye_billing_column_2",
+			),
+			_b(
+				"eye_collected_percent",
+				"Percent",
+				"% Collected",
+				precision="2",
+				insert_after="eye_collected_amount",
+			),
+			_b(
+				"eye_billing_section",
+				"Section Break",
+				"Billing Requests",
+				insert_after="eye_collected_percent",
+			),
+			_b("eye_billing_html", "HTML", "Billing Requests View", insert_after="eye_billing_section"),
 		],
 		"Opportunity Item": [
 			_f(
@@ -385,6 +465,7 @@ OPPORTUNITY_ORDER = [
 	"eye_stage_order",
 	"status",
 	"eye_change_pending",
+	"eye_approval_status",
 	"section_break_14",
 	"currency",
 	"conversion_rate",
@@ -472,6 +553,17 @@ OPPORTUNITY_ORDER = [
 	"eye_quotations_tab",
 	"eye_quotation",
 	"eye_quotations_html",
+	"eye_billing_tab",
+	"eye_requested_amount",
+	"eye_left_to_request",
+	"eye_billing_column",
+	"eye_invoiced_amount",
+	"eye_invoiced_percent",
+	"eye_billing_column_2",
+	"eye_collected_amount",
+	"eye_collected_percent",
+	"eye_billing_section",
+	"eye_billing_html",
 	"activities_tab",
 	"open_activities_html",
 	"all_activities_section",

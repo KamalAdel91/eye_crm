@@ -1,9 +1,12 @@
 """Sales Stage, as Eye CRM extends it: deals keep their stage's type and order with them, so field
-conditions (doc.eye_stage_type, doc.eye_stage_order) stay right when a stage is changed."""
+conditions (doc.eye_stage_type, doc.eye_stage_order) stay right when a stage is changed; and the
+deal boards' columns follow the stages."""
 
 import frappe
 from frappe import _
 from frappe.utils import cint
+
+from eye_crm.eye import board
 
 
 class EyeSalesStage:
@@ -35,3 +38,17 @@ class EyeSalesStage:
 				},
 				update_modified=False,
 			)
+		if self.has_value_changed("eye_stage_order") or self.has_value_changed("eye_color"):
+			board.sync_columns(
+				"Opportunity", recolor=self.name if self.has_value_changed("eye_color") else None
+			)
+
+	def after_rename(self, old, new, merge=False):
+		if getattr(super(), "after_rename", None):
+			super().after_rename(old, new, merge)
+		board.rename_column("Opportunity", old, new)
+
+	def after_delete(self):
+		if getattr(super(), "after_delete", None):
+			super().after_delete()
+		board.sync_columns("Opportunity")

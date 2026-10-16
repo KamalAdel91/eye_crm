@@ -105,6 +105,9 @@ class EyeOpportunity:
 			from eye_crm.eye.opening import open_project
 
 			open_project(self)
+		if self.has_value_changed("sales_stage"):
+			# for Notifications (Event: Method, eye_stage_changed) and other apps' doc_events
+			self.run_method("eye_stage_changed")
 
 	def on_trash(self):
 		if getattr(super(), "on_trash", None):
@@ -126,3 +129,12 @@ class EyeOpportunity:
 			frappe.share.add_docshare(self.doctype, self.name, new, write=1, flags=flags)
 		if old and old not in (new, self.owner):
 			frappe.share.remove(self.doctype, self.name, old, flags=flags)
+		if before and new != old:
+			# the deal's billing requests notify its Salesperson
+			frappe.db.set_value(
+				"Billing Request",
+				{"opportunity": self.name},
+				"salesperson",
+				new or self.owner,
+				update_modified=False,
+			)

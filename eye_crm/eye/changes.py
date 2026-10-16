@@ -15,7 +15,7 @@ from frappe.utils import cint, now_datetime
 
 from eye_crm.eye import deal as deals
 from eye_crm.eye import stages
-from eye_crm.eye.opening import APPROVED, PENDING, REJECTED, _save, _submit, _system_move
+from eye_crm.eye.opening import APPROVED, NOT_REQUIRED, PENDING, REJECTED, _save, _submit, _system_move
 
 
 def working_revision(deal):
@@ -72,11 +72,12 @@ def send_for_approval(deal_name, reason):
 	pl.change_reason = reason
 	if not cint(deals.settings().approve_changes):
 		_save(pl)
-		return apply_change(deal)
+		return apply_change(deal, NOT_REQUIRED)
 	pl.approval_status = PENDING
 	pl.approval_reasons = _("A financial change after the project opened.")
 	pl.rejection_reason = None
 	_save(pl)
+	deal.eye_approval_status = PENDING
 	_system_move(deal, stages.stage_of_type(stages.CHANGE_APPROVAL), None)
 	return deal
 
@@ -92,10 +93,10 @@ def approve(deal_name):
 	pl.approved_by = frappe.session.user
 	pl.approved_on = now_datetime()
 	_save(pl)
-	return apply_change(deal)
+	return apply_change(deal, APPROVED)
 
 
-def apply_change(deal):
+def apply_change(deal, approval_status=None):
 	from eye_crm.eye.quotation import latest_quotation
 	from eye_crm.eye.sales_order import update_sales_order
 
@@ -113,6 +114,8 @@ def apply_change(deal):
 		_submit(quotation)
 	deal.reload()
 	deal.eye_change_pending = 0
+	if approval_status:
+		deal.eye_approval_status = approval_status
 	_system_move(deal, stages.stage_of_type(stages.OPENED), None)
 	deals.update_summary(deal.name, pl)
 	return deal
@@ -132,6 +135,7 @@ def reject(deal_name, reason):
 	pl.approved_by = frappe.session.user
 	pl.approved_on = now_datetime()
 	_save(pl)
+	deal.eye_approval_status = REJECTED
 	_system_move(deal, stages.stage_of_type(stages.OPENED), None)
 	return deal
 
@@ -200,5 +204,9 @@ def _check_change(deal, ptype):
 	if deal.eye_stage_type != stages.OPENED:
 		frappe.throw(_("The change is already waiting for approval."))
 	pl = deals.get_pl(deal)
-	if not frappe.has_permission("Deal PL", ptype, pl):
-		frappe.throw(_("Changing prices needs Write permission on Deal PL."), frappe.PermissionError)
+	if not frappe.has_permission("Deal PL", ptype, pl) or not frappe.has_permission(
+		"Opportunity", "write", deal
+	):
+		frappe.throw(
+			_("Changing prices needs Write permission on the deal and its P&L."), frappe.PermissionError
+		)

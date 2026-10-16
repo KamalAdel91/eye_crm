@@ -129,9 +129,10 @@
   }
  ],
  "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-10-16 10:49:35.360305",
+ "modified": "2026-10-16 14:17:56.836962",
  "modified_by": "Administrator",
  "module": "Eye Deals",
  "name": "Cost Line",

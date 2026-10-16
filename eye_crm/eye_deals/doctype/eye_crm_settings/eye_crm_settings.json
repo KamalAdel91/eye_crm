@@ -225,33 +225,23 @@
   }
  ],
  "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-16 10:49:35.208252",
+ "modified": "2026-10-16 14:17:56.652112",
  "modified_by": "Administrator",
  "module": "Eye Deals",
  "name": "Eye CRM Settings",
  "owner": "Administrator",
  "permissions": [
   {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "print": 1,
    "read": 1,
    "role": "System Manager",
-   "share": 1,
    "write": 1
   },
   {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "print": 1,
    "read": 1,
-   "role": "Sales Manager",
-   "share": 1,
-   "write": 1
+   "role": "Sales Manager"
   }
  ],
  "row_format": "Dynamic",

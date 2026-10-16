@@ -179,3 +179,19 @@
 	font-size: var(--text-sm, 13px);
 	color: var(--text-muted);
 }
+
+/* a stage, with its color */
+.eye-stage {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	white-space: nowrap;
+}
+
+.eye-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	display: inline-block;
+	flex: none;
+}

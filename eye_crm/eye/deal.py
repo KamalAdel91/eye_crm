@@ -276,6 +276,10 @@ def update_summary(deal_name, pl):
 		},
 		update_modified=False,
 	)
+	# its billing percentages are of the selling
+	from eye_crm.eye.billing import update_deal
+
+	update_deal(deal_name)
 
 
 def sync_deal(deal):

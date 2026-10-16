@@ -71,10 +71,11 @@ def make_sales_order(deal, pl, quotation=None):
 
 
 def has_billing(so_name) -> bool:
-	"""Anything billed against the Sales Order, submitted or not."""
+	"""Anything billed against the Sales Order, submitted or not, or asked for in a billing request."""
 	billed = frappe.db.get_value("Sales Order", so_name, "per_billed")
 	drafts = frappe.db.exists("Sales Invoice Item", {"sales_order": so_name, "docstatus": ["<", 2]})
-	return bool(flt(billed) or drafts)
+	requested = frappe.db.exists("Billing Request", {"sales_order": so_name})
+	return bool(flt(billed) or drafts or requested)
 
 
 def update_sales_order(deal, pl):

@@ -24,6 +24,8 @@ before_install = "eye_crm.setup.install.before_install"
 after_install = "eye_crm.setup.install.after_install"
 before_uninstall = "eye_crm.setup.install.before_uninstall"
 setup_wizard_complete = "eye_crm.setup.install.after_setup_wizard"
+# an app installed after this one (Nexlify Board) gets the app's settings in it then
+after_app_install = "eye_crm.setup.install.after_app_install"
 
 app_include_js = "eye_crm.bundle.js"
 app_include_css = "eye_crm.bundle.css"
@@ -48,12 +50,14 @@ has_permission = {
 	"Deal PL": "eye_crm.eye.permissions.has_permission",
 	"Quotation": "eye_crm.eye.permissions.has_permission",
 	"Sales Order": "eye_crm.eye.permissions.has_permission",
+	"Billing Request": "eye_crm.eye.permissions.has_permission",
 }
 permission_query_conditions = {
 	"Cost Sheet": "eye_crm.eye.permissions.cost_sheet_query",
 	"Deal PL": "eye_crm.eye.permissions.deal_pl_query",
 	"Quotation": "eye_crm.eye.permissions.quotation_query",
 	"Sales Order": "eye_crm.eye.permissions.sales_order_query",
+	"Billing Request": "eye_crm.eye.permissions.billing_request_query",
 }
 
 override_doctype_dashboards = {

@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\": \"eyehome0hd\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"<span class=\\\"h4\\\"><b>Deals</b></span>\"}}, {\"id\": \"eyehome000\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals\", \"col\": 3}}, {\"id\": \"eyehome001\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Cost Sheets\", \"col\": 3}}, {\"id\": \"eyehome002\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"P&Ls\", \"col\": 3}}, {\"id\": \"eyehome003\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Quotations\", \"col\": 3}}, {\"id\": \"eyehome004\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Orders\", \"col\": 3}}, {\"id\": \"eyehome005\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Stages\", \"col\": 3}}, {\"id\": \"eyehome006\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Eye CRM Settings\", \"col\": 3}}]",
+ "content": "[{\"id\": \"eyehomeh00\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"<span class=\\\"h4\\\"><b>Deals</b></span>\"}}, {\"id\": \"eyehomes00\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals\", \"col\": 3}}, {\"id\": \"eyehomes01\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals Board\", \"col\": 3}}, {\"id\": \"eyehomes02\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Approvals\", \"col\": 3}}, {\"id\": \"eyehomes03\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Cost Sheets\", \"col\": 3}}, {\"id\": \"eyehomes04\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"P&Ls\", \"col\": 3}}, {\"id\": \"eyehomes05\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Quotations\", \"col\": 3}}, {\"id\": \"eyehomes06\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Orders\", \"col\": 3}}, {\"id\": \"eyehomeh08\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"<span class=\\\"h4\\\"><b>Billing</b></span>\"}}, {\"id\": \"eyehomes08\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Billing Requests\", \"col\": 3}}, {\"id\": \"eyehomes09\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Billing Board\", \"col\": 3}}, {\"id\": \"eyehomeh11\", \"type\": \"header\", \"data\": {\"col\": 12, \"text\": \"<span class=\\\"h4\\\"><b>Settings</b></span>\"}}, {\"id\": \"eyehomes11\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Stages\", \"col\": 3}}, {\"id\": \"eyehomes12\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Billing Stages\", \"col\": 3}}, {\"id\": \"eyehomes13\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Eye CRM Settings\", \"col\": 3}}]",
  "creation": "2026-10-16 12:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "label": "Eye Home",
  "link_type": "DocType",
  "links": [],
- "modified": "2026-10-16 12:00:00.000000",
+ "modified": "2026-10-16 18:05:00.000000",
  "modified_by": "Administrator",
  "module": "Eye Deals",
  "name": "Eye Home",
@@ -29,6 +29,23 @@
    "doc_view": "List",
    "label": "Deals",
    "link_to": "Opportunity",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "Kanban",
+   "kanban_board": "Deals",
+   "label": "Deals Board",
+   "link_to": "Opportunity",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "List",
+   "format": "{} pending",
+   "label": "Approvals",
+   "link_to": "Opportunity",
+   "stats_filter": "[[\"Opportunity\", \"eye_approval_status\", \"=\", \"Pending\"]]",
    "type": "DocType"
   },
   {
@@ -60,10 +77,32 @@
    "type": "DocType"
   },
   {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Billing Requests",
+   "link_to": "Billing Request",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "Kanban",
+   "kanban_board": "Billing",
+   "label": "Billing Board",
+   "link_to": "Billing Request",
+   "type": "DocType"
+  },
+  {
    "color": "Purple",
    "doc_view": "List",
    "label": "Sales Stages",
    "link_to": "Sales Stage",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "label": "Billing Stages",
+   "link_to": "Billing Stage",
    "type": "DocType"
   },
   {

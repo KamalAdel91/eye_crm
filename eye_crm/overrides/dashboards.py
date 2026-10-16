@@ -1,4 +1,4 @@
-"""The deal's Connections: its Cost Sheets and P&Ls, then its quotations and Sales Order."""
+"""The deal's Connections: its Cost Sheets and P&Ls, its quotations and Sales Order, its billing."""
 
 from frappe import _
 
@@ -9,5 +9,6 @@ def opportunity(data):
 	data["transactions"] = [
 		{"label": _("Deal"), "items": ["Cost Sheet", "Deal PL"]},
 		{"label": _("Selling"), "items": ["Quotation", "Sales Order"]},
+		{"label": _("Billing"), "items": ["Billing Request"]},
 	] + ([{"label": _("Buying"), "items": rest}] if rest else [])
 	return data

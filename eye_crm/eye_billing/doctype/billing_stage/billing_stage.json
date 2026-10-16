@@ -1,0 +1,129 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:title",
+ "creation": "2026-10-16 14:16:51.388988",
+ "description": "Where a billing request is, from Sales' draft to the money collected. Names, order, colors and who moves requests are set here; the app knows a stage by its type.",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "stage_type",
+  "sequence",
+  "color",
+  "column_break_14",
+  "can_start_here",
+  "is_default",
+  "roles",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Stage",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "description": "What the stage means. The app knows a stage by its type, not by its name.",
+   "fieldname": "stage_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Stage Type",
+   "options": "Eye Billing Stage Type",
+   "reqd": 1
+  },
+  {
+   "description": "Requests move up in this order, and the Billing board shows the stages in it. Field conditions use the type: doc.stage_type",
+   "fieldname": "sequence",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Order"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Color",
+   "label": "Color"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Request Invoice offers these stages. Only a Draft or Requested stage.",
+   "fieldname": "can_start_here",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "A Request Can Start Here"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_default",
+   "fieldtype": "Check",
+   "label": "Default for New Requests"
+  },
+  {
+   "description": "Empty: anyone who can edit the request.",
+   "fieldname": "roles",
+   "fieldtype": "Table MultiSelect",
+   "label": "Who Can Move Requests Into or Out of It",
+   "options": "Eye Stage Role"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-16 14:17:57.727083",
+ "modified_by": "Administrator",
+ "module": "Eye Billing",
+ "name": "Billing Stage",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager"
+  },
+  {
+   "read": 1,
+   "role": "Desk User"
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "sequence",
+ "sort_order": "ASC",
+ "states": []
+}
