@@ -3,7 +3,7 @@ name = "eye_crm"
 authors = [
     { name = "Kamal Adel", email = "Kamal.adel@outlook.com"}
 ]
-description = "Eye CRM"
+description = "Eye CRM: deals, costing, pricing, approvals and billing for Eye Advertising, on ERPNext"
 requires-python = ">=3.14"
 readme = "README.md"
 dynamic = ["version"]

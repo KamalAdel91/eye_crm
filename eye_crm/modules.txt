@@ -1,3 +1,2 @@
-Eye CRM
-Eye Home
-Eye Sales
+Eye Deals
+Eye Billing

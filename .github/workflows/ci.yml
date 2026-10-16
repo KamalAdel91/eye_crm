@@ -3,11 +3,11 @@ name: CI
 on:
   push:
     branches:
-      - version-16
+      - main
   pull_request:
 
 concurrency:
-  group: version-16-eye_crm-${{ github.event.number }}
+  group: main-eye_crm-${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
@@ -88,10 +88,13 @@ jobs:
       - name: Install
         working-directory: /home/runner/frappe-bench
         run: |
+          bench get-app --branch version-16 erpnext
           bench get-app eye_crm $GITHUB_WORKSPACE
           bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
+          bench --site test_site install-app erpnext
           bench --site test_site install-app eye_crm
+          bench --site test_site execute eye_crm.tests.setup_test_site.run
           bench build
         env:
           CI: 'Yes'
